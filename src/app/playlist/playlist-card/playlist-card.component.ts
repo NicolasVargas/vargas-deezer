@@ -8,9 +8,9 @@ import { Playlist } from '../playlist';
 })
 export class PlaylistCardComponent implements OnInit {
   @Input() playlist: Playlist
+
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

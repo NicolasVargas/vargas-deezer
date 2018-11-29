@@ -10,13 +10,14 @@ import { PlaylistResult } from '../playlist-result';
   styleUrls: ['./playlist-grid.component.scss']
 })
 export class PlaylistGridComponent implements OnInit {
-  playlistResult: Observable<PlaylistResult>;
+  playlists: Playlist[];
 
 
   constructor(private playlistService: PlaylistService) { }
 
   ngOnInit() {
-    this.playlistResult = this.playlistService.getPlaylists();
+    this.playlistService.getPlaylists()
+      .subscribe(d => this.playlists = d.data);
   }
 
 }

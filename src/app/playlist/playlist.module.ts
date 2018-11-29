@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
 import { PlaylistRoutingModule } from './playlist-routing.module';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
-import { MatCardModule } from '@angular/material';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 
 @NgModule({
@@ -11,7 +11,8 @@ import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
   imports: [
     CommonModule,
     PlaylistRoutingModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ]
 })
 export class PlaylistModule { }
