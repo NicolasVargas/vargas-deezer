@@ -1,1 +1,4 @@
-<app-playlist-card></app-playlist-card>
+<app-playlist-card *ngFor="let playlist of (playlistResult | async).data"
+    [playlist="playlist"]
+>
+</app-playlist-card>
