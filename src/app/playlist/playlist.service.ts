@@ -29,6 +29,10 @@ export class PlaylistService {
     return this._playlists.asObservable();
   }
 
+  getPlaylist(playlistId: Number = 273953) {
+    return this.http.get<Playlist>(`/api/playlist/${playlistId}`);
+  }
+
   hasNext(): boolean {
     return !!this._lastPlaylistResult && (this._lastPlaylistResult.next != null);
   }
