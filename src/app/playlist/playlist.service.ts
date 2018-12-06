@@ -24,7 +24,7 @@ export class PlaylistService {
     // avoid multiple calls
     this.loading = true;
 
-    return this.http.get<PlaylistResult>(`/api/user/${userId}/playlists`)
+    return this.http.get<PlaylistResult>(`https://api.deezer.com/user/${userId}/playlists`)
       .pipe(
         // Only take data once
         first(),
