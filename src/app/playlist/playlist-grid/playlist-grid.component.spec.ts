@@ -14,13 +14,13 @@ describe('PlaylistGridComponent', () => {
   let fixture: ComponentFixture<PlaylistGridComponent>;
 
   let playlist;
-  let spiedService;
+  let playlistServiceStub;
 
   beforeEach(async(() => {
     playlist = [];
 
-    spiedService = jasmine.createSpyObj('PlaylistService', ['getPlaylists', 'hasNext']);
-    spiedService.getPlaylists.and.returnValue(of(playlist));
+    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'hasNext', 'getNext']);
+    playlistServiceStub.getPlaylists.and.returnValue(of(playlist));
 
     TestBed.configureTestingModule({
       declarations: [PlaylistGridComponent, PlaylistCardComponent],
@@ -31,7 +31,7 @@ describe('PlaylistGridComponent', () => {
         MatIconModule
       ],
       providers: [
-        { provide: PlaylistService, useValue: spiedService }
+        { provide: PlaylistService, useValue: playlistServiceStub }
       ]
     })
       .compileComponents();
@@ -48,7 +48,6 @@ describe('PlaylistGridComponent', () => {
 
   it('should display 0 playlist cards', () => {
     const gridCompDe: DebugElement = fixture.debugElement;
-    const gridComponentEl: HTMLElement = gridCompDe.nativeElement;
     const cards = gridCompDe.queryAll(By.directive(PlaylistCardComponent));
     expect(cards.length).toEqual(0);
   });
@@ -61,9 +60,35 @@ describe('PlaylistGridComponent', () => {
     fixture.detectChanges();
 
     const gridCompDe: DebugElement = fixture.debugElement;
-    const gridComponentEl: HTMLElement = gridCompDe.nativeElement;
     const cards = gridCompDe.queryAll(By.directive(PlaylistCardComponent));
 
     expect(cards.length).toEqual(2);
+  });
+
+  describe('getNext', () => {
+    it('should call getNext', () => {
+      // Arrange 
+      TestBed.get(PlaylistService).loading = false;
+      // playlistServiceStub.loading = false;
+      fixture.detectChanges();
+
+      // Act
+      component.getNext();
+
+      // Assert
+      expect(playlistServiceStub.getNext).toHaveBeenCalled();
+    });
+
+    it('should not call getNext', () => {
+      // Arrange 
+      TestBed.get(PlaylistService).loading = true;
+      fixture.detectChanges();
+
+      // Act
+      component.getNext();
+
+      // Assert
+      expect(playlistServiceStub.getNext).not.toHaveBeenCalled();
+    })
   });
 });

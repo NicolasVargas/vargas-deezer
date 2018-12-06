@@ -31,7 +31,7 @@ export class PlaylistService {
         // From Observable<PlaylistResult> to Observable<Playlist[]>
         switchMap((newResult: PlaylistResult) => {
           this.loading = false;
-          this.receivedNewResult(newResult);
+          this._lastPlaylistResult = newResult;
           // fill playlists subject with received list
           this._playlists.next(this._lastPlaylistResult.data);
           // Consumers will only need the list of playlists
@@ -51,16 +51,9 @@ export class PlaylistService {
         .pipe(first())
         .subscribe((newResult: PlaylistResult) => {
           this.loading = false;
-          this.receivedNewResult(newResult);
+          this._lastPlaylistResult = newResult;
           this._playlists.next(this._playlists.getValue().concat(this._lastPlaylistResult.data));
         });
-    }
-  }
-
-  private receivedNewResult(newResult: PlaylistResult) {
-    this._lastPlaylistResult = newResult;
-    if (this._lastPlaylistResult.next != null) {
-      this._lastPlaylistResult.next = this._lastPlaylistResult.next.replace('https://api.deezer.com/', '/api/');
     }
   }
 }

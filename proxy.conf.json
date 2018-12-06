@@ -1,7 +1,7 @@
 [
   {
     "context": [
-      "/api", "https://api.deezer.com"
+      "/api"
     ],
     "target": "https://api.deezer.com",
     "secure": true,
