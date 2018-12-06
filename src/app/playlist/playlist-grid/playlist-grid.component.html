@@ -1,5 +1,15 @@
-<app-playlist-card
-    *ngFor="let playlist of playlists"
-    [playlist]="playlist"
->
-</app-playlist-card>
+<div class="playlist-grid-content">
+    <app-playlist-card *ngFor="let playlist of playlists | async"
+                       [playlist]="playlist">
+    </app-playlist-card>
+</div>
+<div class="center my1">
+    <button mat-icon-button
+            mat-raised-button
+            [disabled]="hasNext()"
+            *ngIf="(playlists | async)?.length"
+            color="primary"
+            (click)="getNext()">
+        <mat-icon aria-label="See more playlists">expand_more</mat-icon>
+    </button>
+</div>

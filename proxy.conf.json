@@ -1,11 +1,14 @@
-{
-    "/api": {
-      "target": "https://api.deezer.com",
-      "secure": true,
-      "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/api": ""
-      }
+[
+  {
+    "context": [
+      "/api", "https://api.deezer.com"
+    ],
+    "target": "https://api.deezer.com",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/": ""
     }
   }
+]

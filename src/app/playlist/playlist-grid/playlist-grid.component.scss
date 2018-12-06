@@ -1,4 +1,4 @@
-:host {
+.playlist-grid-content {
     display: grid;
     grid-template-columns: repeat(3, minmax(150px, 1fr));
     grid-gap: 2em;
