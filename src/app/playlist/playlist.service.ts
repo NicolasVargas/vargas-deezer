@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { PlaylistResult } from './playlist-result';
 import { Playlist } from './playlist';
@@ -17,16 +17,27 @@ export class PlaylistService {
     this._playlists = new BehaviorSubject<Playlist[]>([]);
   }
 
+  /**
+   * Fetch a brand new playlists page
+   */
   getPlaylists(userId: Number = 5): Observable<Playlist[]> {
+    // avoid multiple calls
     this.loading = true;
-    this.http.get<PlaylistResult>(`/api/user/${userId}/playlists`)
-      .pipe(first())
-      .subscribe((newResult: PlaylistResult) => {
-        this.loading = false;
-        this.setNewPlaylistResult(newResult);
-        this._playlists.next(this._lastPlaylistResult.data);
-      });
-    return this._playlists.asObservable();
+
+    return this.http.get<PlaylistResult>(`/api/user/${userId}/playlists`)
+      .pipe(
+        // Only take data once
+        first(),
+        // From Observable<PlaylistResult> to Observable<Playlist[]>
+        switchMap((newResult: PlaylistResult) => {
+          this.loading = false;
+          this.receivedNewResult(newResult);
+          // fill playlists subject with received list
+          this._playlists.next(this._lastPlaylistResult.data);
+          // Consumers will only need the list of playlists
+          return this._playlists.asObservable();
+        })
+      );
   }
 
   getPlaylist(playlistId: Number = 273953) {
@@ -44,13 +55,13 @@ export class PlaylistService {
         .pipe(first())
         .subscribe((newResult: PlaylistResult) => {
           this.loading = false;
-          this.setNewPlaylistResult(newResult);
+          this.receivedNewResult(newResult);
           this._playlists.next(this._playlists.getValue().concat(this._lastPlaylistResult.data));
         });
     }
   }
 
-  private setNewPlaylistResult(newResult: PlaylistResult) {
+  private receivedNewResult(newResult: PlaylistResult) {
     this._lastPlaylistResult = newResult;
     if (this._lastPlaylistResult.next != null) {
       this._lastPlaylistResult.next = this._lastPlaylistResult.next.replace('https://api.deezer.com/', '/api/');
