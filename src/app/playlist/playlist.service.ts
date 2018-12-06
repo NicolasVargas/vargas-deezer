@@ -40,6 +40,10 @@ export class PlaylistService {
       );
   }
 
+  getPlaylist(playlistId: Number = 273953) {
+    return this.http.get<Playlist>(`/api/playlist/${playlistId}`);
+  }
+
   hasNext(): boolean {
     return !!this._lastPlaylistResult && (this._lastPlaylistResult.next != null);
   }
