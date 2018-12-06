@@ -67,7 +67,7 @@ describe('PlaylistGridComponent', () => {
 
   describe('getNext', () => {
     it('should call getNext', () => {
-      // Arrange 
+      // Arrange
       TestBed.get(PlaylistService).loading = false;
       // playlistServiceStub.loading = false;
       fixture.detectChanges();
@@ -80,7 +80,7 @@ describe('PlaylistGridComponent', () => {
     });
 
     it('should not call getNext', () => {
-      // Arrange 
+      // Arrange
       TestBed.get(PlaylistService).loading = true;
       fixture.detectChanges();
 
@@ -89,6 +89,6 @@ describe('PlaylistGridComponent', () => {
 
       // Assert
       expect(playlistServiceStub.getNext).not.toHaveBeenCalled();
-    })
+    });
   });
 });

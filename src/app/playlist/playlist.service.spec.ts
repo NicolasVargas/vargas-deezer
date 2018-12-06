@@ -94,7 +94,7 @@ describe('PlaylistServiceService', () => {
     it('should call http service one time to get page start and one more time to get next page', () => {
       // Arrange
       playlistResult.next = 'http://api.com';
-      let nextPlaylistResult = {
+      const nextPlaylistResult = {
         data: [new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4)],
         next: null,
         total: 1
