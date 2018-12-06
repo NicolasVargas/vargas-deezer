@@ -58,7 +58,7 @@ describe('PlaylistServiceService', () => {
       );
 
       // Assert
-      const req = httpTestingController.expectOne('/api/user/6/playlists');
+      const req = httpTestingController.expectOne('https://api.deezer.com/user/6/playlists');
 
       req.flush(playlistResult);
 
@@ -88,7 +88,7 @@ describe('PlaylistServiceService', () => {
       service.getNext();
 
       // Assert
-      const req = httpTestingController.expectNone('/api/user/5/playlists');
+      const req = httpTestingController.expectNone('https://api.deezer.com/user/5/playlists');
     });
 
     it('should call http service one time to get page start and one more time to get next page', () => {
@@ -101,7 +101,7 @@ describe('PlaylistServiceService', () => {
       };
       playlistResult.next = '/api/user/5/playlists/?offset=25';
       service.getPlaylists().subscribe();
-      const firstRequest = httpTestingController.expectOne('/api/user/5/playlists');
+      const firstRequest = httpTestingController.expectOne('https://api.deezer.com/user/5/playlists');
       firstRequest.flush(playlistResult);
 
       // Act
