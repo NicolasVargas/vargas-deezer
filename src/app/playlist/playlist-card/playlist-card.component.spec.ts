@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PlaylistCardComponent } from './playlist-card.component';
-import { MatGridListModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { MatGridListModule, MatButtonModule, MatCardModule, MatIconModule } from '@angular/material';
 import { Playlist } from '../playlist';
 import { By } from '@angular/platform-browser';
 
@@ -16,7 +16,8 @@ describe('PlaylistCardComponent', () => {
       imports: [
         MatCardModule,
         MatButtonModule,
-        MatGridListModule
+        MatGridListModule,
+        MatIconModule
       ]
     })
       .compileComponents();
@@ -26,7 +27,7 @@ describe('PlaylistCardComponent', () => {
     fixture = TestBed.createComponent(PlaylistCardComponent);
     component = fixture.componentInstance;
 
-    mockedPlaylist = new Playlist(0, 'pic', 'pic_small', 'pic_medium', 'my playlist', 'my tracklist');
+    mockedPlaylist = new Playlist(0, 'pic', 'pic_small', 'pic_medium', 'my playlist', 'my tracklist', 15);
 
     component.playlist = mockedPlaylist;
 

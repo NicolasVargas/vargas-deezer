@@ -7,7 +7,7 @@ import { Playlist } from '../playlist';
   styleUrls: ['./playlist-card.component.scss']
 })
 export class PlaylistCardComponent implements OnInit {
-  @Input() playlist: Playlist
+  @Input() playlist: Playlist;
 
   constructor() { }
 
