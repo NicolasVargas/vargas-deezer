@@ -5,7 +5,7 @@ import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.compo
 
 const routes: Routes = [
     { path: 'playlists', component: PlaylistGridComponent },
-    { path: 'playlists/detail', component: PlaylistDetailComponent }
+    { path: 'playlists/detail/:id', component: PlaylistDetailComponent }
 ];
 
 @NgModule({
