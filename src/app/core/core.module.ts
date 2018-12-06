@@ -11,7 +11,7 @@ let devProviders = [{
   useClass: CorsInterceptor,
   multi: true
 }];
-if(environment.production) {
+if (environment.production) {
   devProviders = [];
 }
 
