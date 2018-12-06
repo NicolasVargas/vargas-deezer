@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { PlaylistResult } from './playlist-result';
 import { Playlist } from './playlist';
@@ -9,51 +9,41 @@ import { Playlist } from './playlist';
   providedIn: 'root'
 })
 export class PlaylistService {
-  private _lastPlaylistResult: PlaylistResult;
-  private _playlists: BehaviorSubject<Playlist[]>;
-  public loading: boolean;
+  private _playlistResult: BehaviorSubject<PlaylistResult>;
 
   constructor(private http: HttpClient) {
-    this._playlists = new BehaviorSubject<Playlist[]>([]);
+    this._playlistResult = new BehaviorSubject<PlaylistResult>(null);
   }
 
   /**
    * Fetch a brand new playlists page
    */
-  getPlaylists(userId: Number = 5): Observable<Playlist[]> {
-    // avoid multiple calls
-    this.loading = true;
-
+  getPlaylists(userId: Number = 5): Observable<PlaylistResult> {
     return this.http.get<PlaylistResult>(`https://api.deezer.com/user/${userId}/playlists`)
-      .pipe(
-        // Only take data once
-        first(),
-        // From Observable<PlaylistResult> to Observable<Playlist[]>
-        switchMap((newResult: PlaylistResult) => {
-          this.loading = false;
-          this._lastPlaylistResult = newResult;
-          // fill playlists subject with received list
-          this._playlists.next(this._lastPlaylistResult.data);
-          // Consumers will only need the list of playlists
-          return this._playlists.asObservable();
-        })
-      );
+      .pipe(switchMap((playlistResult: PlaylistResult) => {
+        this._playlistResult.next(playlistResult);
+        return this._playlistResult.asObservable();
+      }));
+  }
+
+  getPlaylist(playlistId: Number = 273953) {
+    return this.http.get<Playlist>(`https://api.deezer.com/playlist/${playlistId}`);
   }
 
   hasNext(): boolean {
-    return !!this._lastPlaylistResult && (this._lastPlaylistResult.next != null);
+    return !!this._playlistResult.getValue() && (this._playlistResult.getValue().next != null);
   }
 
-  getNext() {
-    if (!this.loading && this.hasNext()) {
-      this.loading = true;
-      this.http.get<PlaylistResult>(this._lastPlaylistResult.next)
-        .pipe(first())
-        .subscribe((newResult: PlaylistResult) => {
-          this.loading = false;
-          this._lastPlaylistResult = newResult;
-          this._playlists.next(this._playlists.getValue().concat(this._lastPlaylistResult.data));
+  getNext(): Observable<PlaylistResult> {
+    if (this.hasNext()) {
+      const nextObservable = this.http.get<PlaylistResult>(this._playlistResult.getValue().next);
+      const subscription = nextObservable.subscribe((newResult: PlaylistResult) => {
+          newResult.data = this._playlistResult.getValue().data.concat(newResult.data);
+          this._playlistResult.next(newResult);
+
+          subscription.unsubscribe();
         });
+      return nextObservable;
     }
   }
 }
