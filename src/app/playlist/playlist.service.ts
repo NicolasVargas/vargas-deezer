@@ -46,7 +46,7 @@ export class PlaylistService {
           this.loading = false;
           this.setNewPlaylistResult(newResult);
           this._playlists.next(this._playlists.getValue().concat(this._lastPlaylistResult.data));
-        })
+        });
     }
   }
 

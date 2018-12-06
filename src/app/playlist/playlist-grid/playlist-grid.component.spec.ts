@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PlaylistGridComponent } from './playlist-grid.component';
-import { MatCardModule, MatButtonModule, MatGridListModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { PlaylistService } from '../playlist.service';
 import { of } from 'rxjs';
 import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
@@ -12,28 +12,26 @@ import { Playlist } from '../playlist';
 describe('PlaylistGridComponent', () => {
   let component: PlaylistGridComponent;
   let fixture: ComponentFixture<PlaylistGridComponent>;
-  let playlistService: PlaylistService;
 
-  let getPlaylistsSpy;
-  let playlistResult;
+  let playlist;
+  let spiedService;
 
   beforeEach(async(() => {
-    playlistResult = {
-      data: []
-    }
+    playlist = [];
 
-    const playlistService = jasmine.createSpyObj('PlaylistService', ['getPlaylists']);
-    playlistService.getPlaylists.and.returnValue(of(playlistResult));
+    spiedService = jasmine.createSpyObj('PlaylistService', ['getPlaylists', 'hasNext']);
+    spiedService.getPlaylists.and.returnValue(of(playlist));
 
     TestBed.configureTestingModule({
       declarations: [PlaylistGridComponent, PlaylistCardComponent],
       imports: [
         MatCardModule,
         MatButtonModule,
-        MatGridListModule
+        MatGridListModule,
+        MatIconModule
       ],
       providers: [
-        { provide: PlaylistService, useValue: playlistService }
+        { provide: PlaylistService, useValue: spiedService }
       ]
     })
       .compileComponents();
@@ -56,9 +54,9 @@ describe('PlaylistGridComponent', () => {
   });
 
   it('should display 2 playlist cards', () => {
-    const playlist1: Partial<Playlist> = {}
-    const playlist2: Partial<Playlist> = {}
-    playlistResult.data.push(playlist1, playlist2);
+    const playlist1: Partial<Playlist> = {};
+    const playlist2: Partial<Playlist> = {};
+    playlist.push(playlist1, playlist2);
 
     fixture.detectChanges();
 
