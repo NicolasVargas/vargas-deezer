@@ -9,3 +9,11 @@ script:
 - ng lint
 - npm run test-headless
 - ng build --prod --base-href https://NicolasVargas.github.io/vargas-deezer/
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/vargas-deezer
+  on:
+    branch: develop
