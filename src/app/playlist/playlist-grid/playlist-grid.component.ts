@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PlaylistService } from '../playlist.service';
 import { Playlist } from '../playlist';
-import { first, takeUntil } from 'rxjs/operators';
+import { first, takeUntil, take } from 'rxjs/operators';
 import { PlaylistResult } from '../playlist-result';
 
 @Component({
@@ -24,11 +24,11 @@ export class PlaylistGridComponent implements OnInit {
   getNext() {
     if (!this.loading) {
       this.loading = true;
-      const sub = this.playlistService.getNext()
-      .subscribe(() => {
-        this.loading = false;
-        sub.unsubscribe();
-      });
+      this.playlistService.getNext()
+        .pipe(first())
+        .subscribe(() => {
+          this.loading = false;
+        });
     }
   }
 
