@@ -28,7 +28,7 @@ describe('PlaylistServiceService', () => {
     const playlist1: Playlist = new Playlist(1, 'p1', 'psm', 'pmd', 'playlist1', 'tracks', 1);
     const playlist2: Playlist = new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4);
     const playlist: Playlist[] = [playlist1, playlist2];
-    playlistResult = new PlaylistResult(playlist, '', playlist.length);
+    playlistResult = new PlaylistResult(playlist, playlist.length, '');
   });
 
   afterEach(() => {
@@ -73,36 +73,36 @@ describe('PlaylistServiceService', () => {
     });
   });
 
-  describe('hasNext', () => {
+  describe('hasMorePlaylists', () => {
     it('should have a next page', () => {
       playlistResult.next = 'http://api.deezer.com/nextPage';
       service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
-      expect(service.hasNext()).toBe(true);
+      expect(service.hasMorePlaylists()).toBe(true);
     });
 
-    it('should have a next page', () => {
+    it('should not have a next page', () => {
       playlistResult.next = null;
       service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
-      expect(service.hasNext()).toBe(false);
+      expect(service.hasMorePlaylists()).toBe(false);
     });
   });
 
-  describe('getNext', () => {
+  describe('loadMorePlaylists', () => {
     it('should not call http service', () => {
       // Arrange
       playlistResult.next = null;
       service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
       // Act
-      service.getNext();
+      service.loadMorePlaylists();
 
       // Assert
       const req = httpTestingController.expectNone('https://api.deezer.com/user/5/playlists');
     });
 
-    it('should call getNext', () => {
+    it('should call loadMorePlaylists and make an http call', () => {
       // Arrange
       const nextPlaylistResult = {
         data: [new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4)],
@@ -113,7 +113,7 @@ describe('PlaylistServiceService', () => {
       service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
       // Act
-      service.getNext();
+      service.loadMorePlaylists();
 
       // Assert
       const req = httpTestingController.expectOne('/api/user/5/playlists/?offset=25');

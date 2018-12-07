@@ -4,12 +4,14 @@ import { switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { PlaylistResult } from './playlist-result';
 import { Playlist } from './playlist';
+import { TrackResult } from './track-result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
   private _playlistResult: BehaviorSubject<PlaylistResult>;
+  private _tracksResult: BehaviorSubject<TrackResult>;
 
   constructor(private http: HttpClient) {
     this._playlistResult = new BehaviorSubject<PlaylistResult>(null);
@@ -26,27 +28,48 @@ export class PlaylistService {
       }));
   }
 
-  getPlaylist(playlistId: Number = 273953) {
-    return this.http.get<Playlist>(`https://api.deezer.com/playlist/${playlistId}`);
-  }
-
-  getPlaylist(playlistId: Number = 273953) {
-    return this.http.get<Playlist>(`/api/playlist/${playlistId}`);
-  }
-
-  hasNext(): boolean {
+  hasMorePlaylists(): boolean {
     return !!this._playlistResult.getValue() && (this._playlistResult.getValue().next != null);
   }
 
-  getNext(): Observable<PlaylistResult> {
-    if (this.hasNext()) {
+  loadMorePlaylists(): Observable<PlaylistResult> {
+    if (this.hasMorePlaylists()) {
       const nextObservable = this.http.get<PlaylistResult>(this._playlistResult.getValue().next);
       const subscription = nextObservable.subscribe((newResult: PlaylistResult) => {
-          newResult.data = this._playlistResult.getValue().data.concat(newResult.data);
-          this._playlistResult.next(newResult);
+        newResult.data = this._playlistResult.getValue().data.concat(newResult.data);
+        this._playlistResult.next(newResult);
 
-          subscription.unsubscribe();
-        });
+        subscription.unsubscribe();
+      });
+      return nextObservable;
+    }
+  }
+
+  getPlaylist(playlistId: Number = 273953): Observable<Playlist> {
+    return this.http.get<Playlist>(`https://api.deezer.com/playlist/${playlistId}`);
+  }
+
+  getPlaylistTracks(playlistId: Number = 273953): Observable<TrackResult> {
+    return this.http.get<TrackResult>(`https://api.deezer.com/playlist/${playlistId}/tracks`)
+      .pipe(switchMap((tracksResult: TrackResult) => {
+        this._tracksResult.next(tracksResult);
+        return this._tracksResult.asObservable();
+      }));
+  }
+
+  hasMorePlaylistTracks(): boolean {
+    return !!this._playlistResult.getValue() && (this._playlistResult.getValue().next != null);
+  }
+
+  loadMorePlaylistTracks(): Observable<TrackResult> {
+    if (this.hasMorePlaylistTracks()) {
+      const nextObservable = this.http.get<TrackResult>(this._tracksResult.getValue().next);
+      const subscription = nextObservable.subscribe((newResult: TrackResult) => {
+        newResult.data = this._tracksResult.getValue().data.concat(newResult.data);
+        this._tracksResult.next(newResult);
+
+        subscription.unsubscribe();
+      });
       return nextObservable;
     }
   }

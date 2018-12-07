@@ -6,10 +6,10 @@
 <div class="center my1">
     <button mat-icon-button
             mat-raised-button
-            [disabled]="hasNext()"
+            [disabled]="hasMorePlaylists()"
             *ngIf="(playlistResult | async)?.data.length"
             color="primary"
-            (click)="getNext()">
+            (click)="loadMorePlaylists()">
         <mat-icon aria-label="See more playlists">expand_more</mat-icon>
     </button>
 </div>

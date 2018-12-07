@@ -12,7 +12,7 @@ import { Playlist } from '../playlist';
 })
 export class PlaylistDetailComponent implements OnInit {
   playlist: Playlist;
-  columnsToDisplay  = ['title'];
+  columnsToDisplay = ['index', 'title', 'duration', 'artist'];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -20,14 +20,14 @@ export class PlaylistDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const playlistObservable = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        this.playlistService.getPlaylist((+params.get('id'))).pipe(
-          first()
-        )
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) =>
+          this.playlistService.getPlaylist((+params.get('id')))
+        ),
+        first()
       )
-    );
-    playlistObservable.subscribe(data => this.playlist = data);
+      .subscribe(data => this.playlist = data);
   }
 
 }

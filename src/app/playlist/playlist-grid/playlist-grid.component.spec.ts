@@ -18,9 +18,9 @@ describe('PlaylistGridComponent', () => {
   let playlistServiceStub;
 
   beforeEach(async(() => {
-    playlistResult = new PlaylistResult([], '', 0);
+    playlistResult = new PlaylistResult([], 0, '');
 
-    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'hasNext', 'getNext']);
+    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'hasMorePlaylists', 'loadMorePlaylists']);
     playlistServiceStub.getPlaylists.and.returnValue(of(playlistResult));
 
     TestBed.configureTestingModule({
@@ -69,27 +69,27 @@ describe('PlaylistGridComponent', () => {
     expect(cards.length).toEqual(2);
   });
 
-  describe('getNext', () => {
-    it('should call getNext', () => {
+  describe('loadMorePlaylists', () => {
+    it('should call loadMorePlaylists', () => {
       // Arrange
-      playlistServiceStub.getNext.and.returnValue(of(new PlaylistResult([], '', 0)));
+      playlistServiceStub.loadMorePlaylists.and.returnValue(of(new PlaylistResult([], 0, '')));
 
       // Act
-      component.getNext();
+      component.loadMorePlaylists();
 
       // Assert
-      expect(playlistServiceStub.getNext).toHaveBeenCalled();
+      expect(playlistServiceStub.loadMorePlaylists).toHaveBeenCalled();
     });
 
-    it('should not call getNext', () => {
+    it('should not call loadMorePlaylists', () => {
       // Arrange
       component.loading = true;
 
       // Act
-      component.getNext();
+      component.loadMorePlaylists();
 
       // Assert
-      expect(playlistServiceStub.getNext).not.toHaveBeenCalled();
+      expect(playlistServiceStub.loadMorePlaylists).not.toHaveBeenCalled();
     });
   });
 });
