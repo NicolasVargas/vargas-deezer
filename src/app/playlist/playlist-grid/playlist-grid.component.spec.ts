@@ -58,7 +58,7 @@ describe('PlaylistGridComponent', () => {
     const gridCompDe: DebugElement = fixture.debugElement;
     const playlist1: Playlist = new Playlist(1, 'p1', 'psm', 'pmd', 'playlist1', 'tracks', 1);
     const playlist2: Playlist = new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4);
-    playlistResult.data = [playlist1, playlist2]
+    playlistResult.data = [playlist1, playlist2];
 
     // Act
     fixture.detectChanges();
