@@ -56,7 +56,7 @@ describe('PlaylistServiceService', () => {
       req.flush(playlistResult);
 
     });
-    
+
     it('should fetch playlist with default id to 5', () => {
       // Arrange
 
@@ -108,7 +108,7 @@ describe('PlaylistServiceService', () => {
         data: [new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4)],
         next: null,
         total: 1
-      }; 
+      };
       playlistResult.next = '/api/user/5/playlists/?offset=25';
       service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
