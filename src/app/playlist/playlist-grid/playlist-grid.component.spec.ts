@@ -8,19 +8,20 @@ import { PlaylistCardComponent } from '../playlist-card/playlist-card.component'
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Playlist } from '../playlist';
+import { PlaylistResult } from '../playlist-result';
 
 describe('PlaylistGridComponent', () => {
   let component: PlaylistGridComponent;
   let fixture: ComponentFixture<PlaylistGridComponent>;
 
-  let playlist;
+  let playlistResult: PlaylistResult;
   let playlistServiceStub;
 
   beforeEach(async(() => {
-    playlist = [];
+    playlistResult = new PlaylistResult([], '', 0);
 
     playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'hasNext', 'getNext']);
-    playlistServiceStub.getPlaylists.and.returnValue(of(playlist));
+    playlistServiceStub.getPlaylists.and.returnValue(of(playlistResult));
 
     TestBed.configureTestingModule({
       declarations: [PlaylistGridComponent, PlaylistCardComponent],
@@ -53,13 +54,16 @@ describe('PlaylistGridComponent', () => {
   });
 
   it('should display 2 playlist cards', () => {
-    const playlist1: Partial<Playlist> = {};
-    const playlist2: Partial<Playlist> = {};
-    playlist.push(playlist1, playlist2);
+    // Arrange
+    const gridCompDe: DebugElement = fixture.debugElement;
+    const playlist1: Playlist = new Playlist(1, 'p1', 'psm', 'pmd', 'playlist1', 'tracks', 1);
+    const playlist2: Playlist = new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4);
+    playlistResult.data = [playlist1, playlist2]
 
+    // Act
     fixture.detectChanges();
 
-    const gridCompDe: DebugElement = fixture.debugElement;
+    // Assert
     const cards = gridCompDe.queryAll(By.directive(PlaylistCardComponent));
 
     expect(cards.length).toEqual(2);
@@ -68,9 +72,7 @@ describe('PlaylistGridComponent', () => {
   describe('getNext', () => {
     it('should call getNext', () => {
       // Arrange
-      TestBed.get(PlaylistService).loading = false;
-      // playlistServiceStub.loading = false;
-      fixture.detectChanges();
+      playlistServiceStub.getNext.and.returnValue(of(new PlaylistResult([], '', 0)));
 
       // Act
       component.getNext();
@@ -81,8 +83,7 @@ describe('PlaylistGridComponent', () => {
 
     it('should not call getNext', () => {
       // Arrange
-      TestBed.get(PlaylistService).loading = true;
-      fixture.detectChanges();
+      component.loading = true;
 
       // Act
       component.getNext();
