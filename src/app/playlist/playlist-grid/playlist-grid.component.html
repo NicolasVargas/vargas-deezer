@@ -1,5 +1,5 @@
 <div class="playlist-grid-content">
-    <app-playlist-card *ngFor="let playlist of playlists | async"
+    <app-playlist-card *ngFor="let playlist of (playlistResult | async)?.data"
                        [playlist]="playlist">
     </app-playlist-card>
 </div>
@@ -7,7 +7,7 @@
     <button mat-icon-button
             mat-raised-button
             [disabled]="hasNext()"
-            *ngIf="(playlists | async)?.length"
+            *ngIf="(playlistResult | async)?.data.length"
             color="primary"
             (click)="getNext()">
         <mat-icon aria-label="See more playlists">expand_more</mat-icon>

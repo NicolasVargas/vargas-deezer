@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PlaylistService } from '../playlist.service';
 import { Playlist } from '../playlist';
-import { first } from 'rxjs/operators';
+import { first, takeUntil, take } from 'rxjs/operators';
+import { PlaylistResult } from '../playlist-result';
 
 @Component({
   selector: 'app-playlist-grid',
@@ -10,19 +11,24 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./playlist-grid.component.scss']
 })
 export class PlaylistGridComponent implements OnInit {
-  playlists: Observable<Playlist[]>;
-  loadingNext: boolean;
+  playlistResult: Observable<PlaylistResult>;
+  loading: boolean;
 
 
   constructor(private playlistService: PlaylistService) { }
 
   ngOnInit() {
-    this.playlists = this.playlistService.getPlaylists();
+    this.playlistResult = this.playlistService.getPlaylists();
   }
 
   getNext() {
-    if (!this.playlistService.loading) {
-      this.playlistService.getNext();
+    if (!this.loading) {
+      this.loading = true;
+      this.playlistService.getNext()
+        .pipe(first())
+        .subscribe(() => {
+          this.loading = false;
+        });
     }
   }
 
