@@ -1,3 +1,5 @@
+import { Track } from './track';
+
 export class Playlist {
     constructor(
         public id: number,
@@ -6,6 +8,7 @@ export class Playlist {
         public picture_medium: string,
         public title: string,
         public tracklist: string,
-        public nb_tracks: number
+        public nb_tracks: number,
+        public tracks?: Track[]
     ) { }
 }
