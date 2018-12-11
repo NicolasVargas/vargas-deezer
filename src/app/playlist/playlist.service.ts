@@ -57,6 +57,6 @@ export class PlaylistService {
     if (limit) {
       params = params.append('limit', limit.toString());
     }
-    return this.http.get<TrackResult>(tracklist, { params: params })
+    return this.http.get<TrackResult>(tracklist, { params: params });
   }
 }

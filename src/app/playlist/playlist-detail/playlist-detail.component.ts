@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { TrackResult } from '../track-result';
   templateUrl: './playlist-detail.component.html',
   styleUrls: ['./playlist-detail.component.scss']
 })
-export class PlaylistDetailComponent implements OnInit, OnDestroy {
+export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   destroySubject: Subject<boolean> = new Subject<boolean>();
   loading: boolean;
   playlist: Playlist;
@@ -59,7 +59,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
       } else if (paginationAction < 0) {
         this.loadTracks(this.trackResult.prev);
       }
-    })
+    });
   }
 
   ngOnDestroy() {

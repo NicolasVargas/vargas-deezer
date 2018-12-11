@@ -3,6 +3,6 @@ export class ResultList<T> {
         public data: T[],
         public total: number,
         public next?: string,
-        public prev? :string
+        public prev?: string
     ) { }
 }
