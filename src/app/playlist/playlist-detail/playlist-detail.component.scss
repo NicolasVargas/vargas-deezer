@@ -1,8 +1,26 @@
 :host {
+    display: block;
+}
+.mat-toolbar-row {
+    height: unset;
+}
+.tracks-table-container {
+    position: relative;
+
     table {
         width: 100%;
     }
-    .mat-toolbar-row {
-        height: unset;
+
+    .spinner-container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        background: rgba(0, 0, 0, 0.15);
+        top: 0;
+        bottom: 56px;
+        left: 0;
+        right: 0
     }
 }

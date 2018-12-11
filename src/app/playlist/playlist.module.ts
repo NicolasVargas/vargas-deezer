@@ -5,7 +5,8 @@ import { PlaylistRoutingModule } from './playlist-routing.module';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import {
   MatCardModule, MatButtonModule, MatIconModule,
-  MatGridListModule, MatRippleModule, MatToolbarModule, MatTableModule
+  MatGridListModule, MatRippleModule, MatToolbarModule, MatTableModule,
+  MatPaginatorModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 
@@ -20,6 +21,8 @@ import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
     MatIconModule,
     MatRippleModule,
     MatToolbarModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatTableModule
   ]
 })

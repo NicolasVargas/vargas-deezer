@@ -4,35 +4,45 @@
         <span>{{playlist?.title}}</span>
     </mat-toolbar-row>
 </mat-toolbar>
-<table mat-table
-       [dataSource]="tracksDataSource">
-    <ng-container matColumnDef="index">
-        <th mat-header-cell
-            *matHeaderCellDef> # </th>
-        <td mat-cell
-            *matCellDef="let index = index;"> {{index + 1}} </td>
-    </ng-container>
-    <ng-container matColumnDef="title">
-        <th mat-header-cell
-            *matHeaderCellDef> Title </th>
-        <td mat-cell
-            *matCellDef="let track"> {{track.title}} </td>
-    </ng-container>
-    <ng-container matColumnDef="duration">
-        <th mat-header-cell
-            *matHeaderCellDef> Duration </th>
-        <td mat-cell
-            *matCellDef="let track"> {{ track.duration * 1000 | date:"mm:ss" }} </td>
-    </ng-container>
-    <ng-container matColumnDef="artist">
-        <th mat-header-cell
-            *matHeaderCellDef> Artist </th>
-        <td mat-cell
-            *matCellDef="let track"> {{ track.artist.name }} </td>
-    </ng-container>
+<div class="tracks-table-container">
+    <div class="spinner-container"
+         *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <table mat-table
+           [dataSource]="trackResult?.data">
+        <ng-container matColumnDef="index">
+            <th mat-header-cell
+                *matHeaderCellDef> # </th>
+            <td mat-cell
+                *matCellDef="let index = index;"> {{(index + 1) + (paginator.pageIndex * paginator.pageSize)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="title">
+            <th mat-header-cell
+                *matHeaderCellDef> Title </th>
+            <td mat-cell
+                *matCellDef="let track"> {{track.title}} </td>
+        </ng-container>
+        <ng-container matColumnDef="duration">
+            <th mat-header-cell
+                *matHeaderCellDef> Duration </th>
+            <td mat-cell
+                *matCellDef="let track"> {{ track.duration * 1000 | date:"mm:ss" }} </td>
+        </ng-container>
+        <ng-container matColumnDef="artist">
+            <th mat-header-cell
+                *matHeaderCellDef> Artist </th>
+            <td mat-cell
+                *matCellDef="let track"> {{ track.artist.name }} </td>
+        </ng-container>
 
-    <tr mat-header-row
-        *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row
-        *matRowDef="let row; columns: columnsToDisplay;"></tr>
-</table>
+        <tr mat-header-row
+            *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: columnsToDisplay;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                   [pageSize]="pageSize"
+                   [length]="playlist?.nb_tracks"></mat-paginator>
+</div>

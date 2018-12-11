@@ -1,28 +1,26 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 import { Playlist } from './playlist';
 import { PlaylistResult } from './playlist-result';
 import { TrackResult } from './track-result';
-import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
   private playlistResult: BehaviorSubject<PlaylistResult>;
-  private tracksResult: BehaviorSubject<TrackResult>;
 
   constructor(private http: HttpClient) {
     this.playlistResult = new BehaviorSubject<PlaylistResult>(null);
-    this.tracksResult = new BehaviorSubject<TrackResult>(null);
   }
 
   /**
    * Fetch a brand new playlists page
    */
-  getPlaylists(userId: Number = 5): Observable<PlaylistResult> {
+  getPlaylists(userId: Number = 908622995): Observable<PlaylistResult> {
     return this.http.get<PlaylistResult>(`${environment.apiUrl}/user/${userId}/playlists`)
       .pipe(switchMap((playlistResult: PlaylistResult) => {
         this.playlistResult.next(playlistResult);
@@ -47,32 +45,18 @@ export class PlaylistService {
     }
   }
 
-  getPlaylist(playlistId: Number = 273953): Observable<Playlist> {
+  getPlaylist(playlistId: Number = 908622995): Observable<Playlist> {
     return this.http.get<Playlist>(`${environment.apiUrl}/playlist/${playlistId}`);
   }
 
-  getPlaylistTracks(playlistId: Number = 273953): Observable<TrackResult> {
-    return this.http.get<TrackResult>(`${environment.apiUrl}/playlist/${playlistId}/tracks`)
-      .pipe(switchMap((tracksResult: TrackResult) => {
-        this.tracksResult.next(tracksResult);
-        return this.tracksResult.asObservable();
-      }));
-  }
-
-  hasMorePlaylistTracks(): boolean {
-    return !!this.playlistResult.getValue() && (this.playlistResult.getValue().next != null);
-  }
-
-  loadMorePlaylistTracks(): Observable<TrackResult> {
-    if (this.hasMorePlaylistTracks()) {
-      const nextObservable = this.http.get<TrackResult>(this.tracksResult.getValue().next);
-      const subscription = nextObservable.subscribe((newResult: TrackResult) => {
-        newResult.data = this.tracksResult.getValue().data.concat(newResult.data);
-        this.tracksResult.next(newResult);
-
-        subscription.unsubscribe();
-      });
-      return nextObservable;
+  getPlaylistTracks(tracklist: string, limit?: number, index?: number): Observable<TrackResult> {
+    let params = new HttpParams();
+    if (index) {
+      params = params.append('index', index.toString());
     }
+    if (limit) {
+      params = params.append('limit', limit.toString());
+    }
+    return this.http.get<TrackResult>(tracklist, { params: params })
   }
 }

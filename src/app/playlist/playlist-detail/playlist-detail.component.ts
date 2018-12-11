@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { of, Subject } from 'rxjs';
+import { catchError, finalize, takeUntil } from 'rxjs/operators';
 import { Playlist } from '../playlist';
 import { PlaylistService } from '../playlist.service';
-import { Track } from '../track';
 import { TrackResult } from '../track-result';
 
 @Component({
@@ -14,12 +13,17 @@ import { TrackResult } from '../track-result';
   styleUrls: ['./playlist-detail.component.scss']
 })
 export class PlaylistDetailComponent implements OnInit, OnDestroy {
-  playlist: Playlist;
-  tracks: TrackResult;
   destroySubject: Subject<boolean> = new Subject<boolean>();
+  loading: boolean;
+  playlist: Playlist;
+  trackResult: TrackResult;
+
+
   columnsToDisplay = ['index', 'title', 'duration', 'artist'];
-  tracksResult: Observable<TrackResult>;
-  tracksDataSource = new MatTableDataSource<Track>([]);
+  pageSizeOptions = [20, 50, 100];
+  pageSize = this.pageSizeOptions[0];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,25 +31,35 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap
-      .pipe(takeUntil(this.destroySubject))
-      .subscribe((params: ParamMap) => {
-        let id: number = +params.get('id');
+    this.playlist = this.route.snapshot.data.playlist;
+    this.loadTracks(this.playlist.tracklist, this.pageSize);
+  }
 
-        // Fetch playlist details
-        this.playlistService.getPlaylist(id)
-          .pipe(takeUntil(this.destroySubject))
-          .subscribe((playlist: Playlist) => {
-            this.playlist = playlist;
-          });
+  loadTracks(tracklist: string, pageSize?: number) {
+    this.loading = true;
+    this.playlistService.getPlaylistTracks(tracklist, pageSize)
+      .pipe(
+        takeUntil(this.destroySubject),
+        catchError(() => of([])),
+        finalize(() => this.loading = false)
+      )
+      .subscribe((trackResult: TrackResult) => {
+        this.trackResult = trackResult;
+      });
+  }
 
-        // Fetch playlist tracks
-        this.playlistService.getPlaylistTracks(id)
-          .pipe(takeUntil(this.destroySubject))
-          .subscribe((tracks: TrackResult) => {
-            this.tracksDataSource.data = tracks.data;
-          })
-      })
+  ngAfterViewInit() {
+
+    this.paginator.page.pipe(
+      takeUntil(this.destroySubject),
+    ).subscribe((pageEvent: PageEvent) => {
+      const paginationAction: number = pageEvent.pageIndex - pageEvent.previousPageIndex;
+      if (paginationAction > 0) {
+        this.loadTracks(this.trackResult.next);
+      } else if (paginationAction < 0) {
+        this.loadTracks(this.trackResult.prev);
+      }
+    })
   }
 
   ngOnDestroy() {
