@@ -18,10 +18,10 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
   playlist: Playlist;
   trackResult: TrackResult;
 
-
   columnsToDisplay = ['index', 'title', 'duration', 'artist'];
   pageSizeOptions = [20, 50, 100];
   pageSize = this.pageSizeOptions[0];
+  previousPageSize = this.pageSize;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -35,9 +35,9 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
     this.loadTracks(this.playlist.tracklist, this.pageSize);
   }
 
-  loadTracks(tracklist: string, pageSize?: number) {
+  loadTracks(tracklist: string, pageSize?: number, index?: number) {
     this.loading = true;
-    this.playlistService.getPlaylistTracks(tracklist, pageSize)
+    this.playlistService.getPlaylistTracks(tracklist, pageSize, index)
       .pipe(
         takeUntil(this.destroySubject),
         catchError(() => of([])),
@@ -53,11 +53,18 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
     this.paginator.page.pipe(
       takeUntil(this.destroySubject),
     ).subscribe((pageEvent: PageEvent) => {
-      const paginationAction: number = pageEvent.pageIndex - pageEvent.previousPageIndex;
-      if (paginationAction > 0) {
-        this.loadTracks(this.trackResult.next);
-      } else if (paginationAction < 0) {
-        this.loadTracks(this.trackResult.prev);
+      if (pageEvent.pageSize !== this.previousPageSize) {
+        // Event is "change items per page"
+        this.loadTracks(this.trackResult.next, pageEvent.pageSize, pageEvent.pageIndex * pageEvent.pageSize);
+      } else {
+        const paginationAction: number = pageEvent.pageIndex - pageEvent.previousPageIndex;
+        if (paginationAction > 0) {
+          // Event is "next page"
+          this.loadTracks(this.trackResult.next);
+        } else if (paginationAction < 0) {
+          // Event is "previous page"
+          this.loadTracks(this.trackResult.prev);
+        }
       }
     });
   }

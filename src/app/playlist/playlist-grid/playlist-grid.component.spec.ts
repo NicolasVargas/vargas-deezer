@@ -20,7 +20,8 @@ describe('PlaylistGridComponent', () => {
   beforeEach(async(() => {
     playlistResult = new PlaylistResult([], 0, '');
 
-    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'hasMorePlaylists', 'loadMorePlaylists']);
+    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService',
+      ['getPlaylists', 'hasMorePlaylists', 'loadMorePlaylists']);
     playlistServiceStub.getPlaylists.and.returnValue(of(playlistResult));
 
     TestBed.configureTestingModule({

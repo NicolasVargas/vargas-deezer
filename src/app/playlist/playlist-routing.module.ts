@@ -7,7 +7,7 @@ import { PlaylistResolver } from './playlist-resolver';
 const routes: Routes = [
     { path: 'playlists', component: PlaylistGridComponent },
     {
-        path: 'playlists/detail/:id',
+        path: 'playlists/:id/details',
         component: PlaylistDetailComponent,
         resolve: {
             playlist: PlaylistResolver

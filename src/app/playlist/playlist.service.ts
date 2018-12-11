@@ -20,7 +20,7 @@ export class PlaylistService {
   /**
    * Fetch a brand new playlists page
    */
-  getPlaylists(userId: Number = 908622995): Observable<PlaylistResult> {
+  getPlaylists(userId: Number = 5): Observable<PlaylistResult> {
     return this.http.get<PlaylistResult>(`${environment.apiUrl}/user/${userId}/playlists`)
       .pipe(switchMap((playlistResult: PlaylistResult) => {
         this.playlistResult.next(playlistResult);
@@ -51,11 +51,11 @@ export class PlaylistService {
 
   getPlaylistTracks(tracklist: string, limit?: number, index?: number): Observable<TrackResult> {
     let params = new HttpParams();
-    if (index) {
-      params = params.append('index', index.toString());
+    if (index != null) {
+      params = params.set('index', index.toString());
     }
-    if (limit) {
-      params = params.append('limit', limit.toString());
+    if (limit != null) {
+      params = params.set('limit', limit.toString());
     }
     return this.http.get<TrackResult>(tracklist, { params: params });
   }
