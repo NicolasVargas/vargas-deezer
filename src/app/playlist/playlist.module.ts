@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import {
+  MatButtonModule, MatCardModule, MatGridListModule,
+  MatIconModule, MatPaginatorModule, MatProgressSpinnerModule,
+  MatRippleModule, MatTableModule, MatToolbarModule
+} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '@blox/material';
+import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
+import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
 import { PlaylistRoutingModule } from './playlist-routing.module';
-import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
-import {
-  MatCardModule, MatButtonModule, MatIconModule,
-  MatGridListModule, MatRippleModule, MatToolbarModule, MatTableModule,
-  MatPaginatorModule, MatProgressSpinnerModule
-} from '@angular/material';
-import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 
 @NgModule({
   declarations: [PlaylistGridComponent, PlaylistDetailComponent, PlaylistCardComponent],
@@ -23,7 +25,9 @@ import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
     MatToolbarModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ]
 })
 export class PlaylistModule { }

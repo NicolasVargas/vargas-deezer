@@ -49,14 +49,14 @@ export class PlaylistService {
     return this.http.get<Playlist>(`${environment.apiUrl}/playlist/${playlistId}`);
   }
 
-  getPlaylistTracks(tracklist: string, limit?: number, index?: number): Observable<TrackResult> {
+  getPlaylistTracks(playlist: Playlist, limit?: number, index?: number): Observable<TrackResult> {
     let params = new HttpParams();
-    if (index != null) {
+    if (index) {
       params = params.set('index', index.toString());
     }
-    if (limit != null) {
+    if (limit) {
       params = params.set('limit', limit.toString());
     }
-    return this.http.get<TrackResult>(tracklist, { params: params });
+    return this.http.get<TrackResult>(playlist.tracklist, { params: params });
   }
 }

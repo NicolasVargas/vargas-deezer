@@ -1,26 +1,32 @@
 :host {
-    display: block;
+  display: block;
+  position: relative;
 }
-.mat-toolbar-row {
-    height: unset;
+
+table {
+  width: 100%;
 }
-.tracks-table-container {
-    position: relative;
 
-    table {
-        width: 100%;
-    }
+.spinner-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .spinner-container {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-        background: rgba(0, 0, 0, 0.15);
-        top: 0;
-        bottom: 56px;
-        left: 0;
-        right: 0
-    }
+  background: rgba(0, 0, 0, 0.15);
+  top: 0;
+  bottom: 56px;
+  left: 0;
+  right: 0;
+}
+
+header.mdc-toolbar {
+  background-color: white;
+  color: black;
+  box-shadow: none;
+  img {
+    position: absolute;
+    top: 0;
+    max-height: 100%;
+  }
 }

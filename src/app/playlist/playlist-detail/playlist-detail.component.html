@@ -1,10 +1,31 @@
-<mat-toolbar>
+<!-- <mat-toolbar>
     <mat-toolbar-row>
-        <img src="{{playlist?.picture_medium}}">
-        <span>{{playlist?.title}}</span>
+        <span></span>
     </mat-toolbar-row>
-</mat-toolbar>
-<div class="tracks-table-container">
+</mat-toolbar> -->
+<header mdcToolbar
+        fixed
+        [fixedAdjust]="main"
+        flexible
+        flexibleDefaultBehavior>
+    <div mdcToolbarRow>
+        <section mdcToolbarSection
+                 alignStart>
+
+            <span mdcToolbarTitle>
+                {{playlist.title}}
+            </span>
+        </section>
+        <section mdcToolbarSection
+                 alignEnd>
+            <img src="{{playlist.picture_medium}}">
+        </section>
+    </div>
+</header>
+<main mdcToolbarFixedAdjust
+      cdkScrollable
+      #main="mdcFixedAdjust"
+      class="tracks-table-container">
     <div class="spinner-container"
          *ngIf="loading">
         <mat-spinner></mat-spinner>
@@ -15,7 +36,8 @@
             <th mat-header-cell
                 *matHeaderCellDef> # </th>
             <td mat-cell
-                *matCellDef="let index = index;"> {{(index + 1) + (paginator.pageIndex * paginator.pageSize)}} </td>
+                *matCellDef="let index = index;"> {{(index + 1) + (paginator.pageIndex * paginator.pageSize)}}
+            </td>
         </ng-container>
         <ng-container matColumnDef="title">
             <th mat-header-cell
@@ -44,5 +66,5 @@
 
     <mat-paginator [pageSizeOptions]="pageSizeOptions"
                    [pageSize]="pageSize"
-                   [length]="playlist?.nb_tracks"></mat-paginator>
-</div>
+                   [length]="playlist.nb_tracks"></mat-paginator>
+</main>

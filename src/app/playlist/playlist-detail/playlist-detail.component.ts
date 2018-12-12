@@ -32,12 +32,20 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   ngOnInit() {
     this.playlist = this.route.snapshot.data.playlist;
-    this.loadTracks(this.playlist.tracklist, this.pageSize);
+    this.loadTracks(this.pageSize);
   }
 
-  loadTracks(tracklist: string, pageSize?: number, index?: number) {
+  ngAfterViewInit() {
+    this.paginator.page.pipe(takeUntil(this.destroySubject))
+      .subscribe((pageEvent: PageEvent) => {
+        this.loadTracks(pageEvent.pageSize, pageEvent.pageIndex);
+      });
+  }
+
+  loadTracks(pageSize: number, pageIndex: number = 0) {
     this.loading = true;
-    this.playlistService.getPlaylistTracks(tracklist, pageSize, index)
+    const index = pageIndex * pageSize;
+    this.playlistService.getPlaylistTracks(this.playlist, pageSize, index)
       .pipe(
         takeUntil(this.destroySubject),
         catchError(() => of([])),
@@ -46,27 +54,6 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
       .subscribe((trackResult: TrackResult) => {
         this.trackResult = trackResult;
       });
-  }
-
-  ngAfterViewInit() {
-
-    this.paginator.page.pipe(
-      takeUntil(this.destroySubject),
-    ).subscribe((pageEvent: PageEvent) => {
-      if (pageEvent.pageSize !== this.previousPageSize) {
-        // Event is "change items per page"
-        this.loadTracks(this.trackResult.next, pageEvent.pageSize, pageEvent.pageIndex * pageEvent.pageSize);
-      } else {
-        const paginationAction: number = pageEvent.pageIndex - pageEvent.previousPageIndex;
-        if (paginationAction > 0) {
-          // Event is "next page"
-          this.loadTracks(this.trackResult.next);
-        } else if (paginationAction < 0) {
-          // Event is "previous page"
-          this.loadTracks(this.trackResult.prev);
-        }
-      }
-    });
   }
 
   ngOnDestroy() {
