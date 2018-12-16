@@ -1,14 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PlaylistGridComponent } from './playlist-grid.component';
-import { MatCardModule, MatButtonModule, MatGridListModule, MatIconModule } from '@angular/material';
-import { PlaylistService } from '../playlist.service';
-import { of } from 'rxjs';
-import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule, MatCardModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { Playlist } from '../playlist';
+import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
 import { PlaylistResult } from '../playlist-result';
+import { PlaylistService } from '../playlist.service';
+import { PlaylistGridComponent } from './playlist-grid.component';
+
 
 describe('PlaylistGridComponent', () => {
   let component: PlaylistGridComponent;
@@ -30,7 +31,8 @@ describe('PlaylistGridComponent', () => {
         MatCardModule,
         MatButtonModule,
         MatGridListModule,
-        MatIconModule
+        MatIconModule,
+        RouterTestingModule
       ],
       providers: [
         { provide: PlaylistService, useValue: playlistServiceStub }
@@ -57,8 +59,8 @@ describe('PlaylistGridComponent', () => {
   it('should display 2 playlist cards', () => {
     // Arrange
     const gridCompDe: DebugElement = fixture.debugElement;
-    const playlist1: Playlist = new Playlist(1, 'p1', 'psm', 'pmd', 'playlist1', 'tracks', 1);
-    const playlist2: Playlist = new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4);
+    const playlist1: Playlist = new Playlist(1, 'playlist1');
+    const playlist2: Playlist = new Playlist(2, 'playlist1');
     playlistResult.data = [playlist1, playlist2];
 
     // Act

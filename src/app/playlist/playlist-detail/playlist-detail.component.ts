@@ -18,7 +18,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
   playlist: Playlist;
   trackResult: TrackResult;
 
-  columnsToDisplay = ['index', 'title', 'duration', 'artist'];
+  columnsToDisplay = ['title', 'duration', 'artist'];
   pageSizeOptions = [20, 50, 100];
   pageSize = this.pageSizeOptions[0];
   previousPageSize = this.pageSize;

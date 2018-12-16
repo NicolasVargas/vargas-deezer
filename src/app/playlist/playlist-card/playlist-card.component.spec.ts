@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PlaylistCardComponent } from './playlist-card.component';
-import { MatGridListModule, MatButtonModule, MatCardModule, MatIconModule } from '@angular/material';
-import { Playlist } from '../playlist';
+import { MatButtonModule, MatCardModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Playlist } from '../playlist';
+import { PlaylistCardComponent } from './playlist-card.component';
+
 
 describe('PlaylistCardComponent', () => {
   let component: PlaylistCardComponent;
@@ -14,6 +15,7 @@ describe('PlaylistCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PlaylistCardComponent],
       imports: [
+        RouterTestingModule,
         MatCardModule,
         MatButtonModule,
         MatGridListModule,
@@ -27,7 +29,7 @@ describe('PlaylistCardComponent', () => {
     fixture = TestBed.createComponent(PlaylistCardComponent);
     component = fixture.componentInstance;
 
-    mockedPlaylist = new Playlist(0, 'pic', 'pic_small', 'pic_medium', 'my playlist', 'my tracklist', 15);
+    mockedPlaylist = new Playlist(0, 'my playlist');
 
     component.playlist = mockedPlaylist;
 

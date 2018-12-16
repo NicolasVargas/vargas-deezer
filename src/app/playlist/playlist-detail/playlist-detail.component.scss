@@ -1,6 +1,5 @@
 :host {
   display: block;
-  position: relative;
 }
 
 table {
@@ -18,15 +17,4 @@ table {
   bottom: 56px;
   left: 0;
   right: 0;
-}
-
-header.mdc-toolbar {
-  background-color: white;
-  color: black;
-  box-shadow: none;
-  img {
-    position: absolute;
-    top: 0;
-    max-height: 100%;
-  }
 }

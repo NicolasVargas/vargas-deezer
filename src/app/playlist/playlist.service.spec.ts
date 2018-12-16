@@ -8,6 +8,8 @@ import { Playlist } from './playlist';
 import { HttpClient } from '@angular/common/http';
 import { of, BehaviorSubject } from 'rxjs';
 import { PlaylistResult } from './playlist-result';
+import { Track } from './track';
+import { TrackResult } from './track-result';
 
 describe('PlaylistServiceService', () => {
 
@@ -15,6 +17,7 @@ describe('PlaylistServiceService', () => {
   let service: PlaylistService;
 
   let playlistResult: PlaylistResult;
+  let playlist1: Playlist;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,8 +28,9 @@ describe('PlaylistServiceService', () => {
     service = TestBed.get(PlaylistService);
     httpTestingController = TestBed.get(HttpTestingController);
 
-    const playlist1: Playlist = new Playlist(1, 'p1', 'psm', 'pmd', 'playlist1', 'tracks', 1);
-    const playlist2: Playlist = new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4);
+    playlist1 = new Playlist(1, 'playlist1');
+    playlist1.tracklist = '/tracks';
+    const playlist2: Playlist = new Playlist(2, 'playlist1');
     const playlist: Playlist[] = [playlist1, playlist2];
     playlistResult = new PlaylistResult(playlist, playlist.length, '');
   });
@@ -76,14 +80,14 @@ describe('PlaylistServiceService', () => {
   describe('hasMorePlaylists', () => {
     it('should have a next page', () => {
       playlistResult.next = 'http://api.deezer.com/nextPage';
-      service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
+      service['playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
       expect(service.hasMorePlaylists()).toBe(true);
     });
 
     it('should not have a next page', () => {
       playlistResult.next = null;
-      service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
+      service['playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
       expect(service.hasMorePlaylists()).toBe(false);
     });
@@ -93,7 +97,7 @@ describe('PlaylistServiceService', () => {
     it('should not call http service', () => {
       // Arrange
       playlistResult.next = null;
-      service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
+      service['playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
       // Act
       service.loadMorePlaylists();
@@ -105,12 +109,12 @@ describe('PlaylistServiceService', () => {
     it('should call loadMorePlaylists and make an http call', () => {
       // Arrange
       const nextPlaylistResult = {
-        data: [new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4)],
+        data: [new Playlist(2, 'playlist2')],
         next: null,
         total: 1
       };
       playlistResult.next = '/api/user/5/playlists/?offset=25';
-      service['_playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
+      service['playlistResult'] = new BehaviorSubject<PlaylistResult>(playlistResult);
 
       // Act
       service.loadMorePlaylists();
@@ -119,6 +123,50 @@ describe('PlaylistServiceService', () => {
       const req = httpTestingController.expectOne('/api/user/5/playlists/?offset=25');
 
       req.flush(nextPlaylistResult);
+    });
+  });
+  describe('getPlaylist', () => {
+    it('should get a playlist', () => {
+      // Arrange
+
+      // Act
+      service.getPlaylist(15).subscribe(
+        result => expect(result).toEqual(playlist1)
+      );
+
+      // Assert
+      const req = httpTestingController.expectOne('https://api.deezer.com/playlist/15');
+
+      req.flush(playlist1);
+    });
+    it('should get a default playlist', () => {
+      // Arrange
+
+      // Act
+      service.getPlaylist().subscribe(
+        result => expect(result).toEqual(playlist1)
+      );
+
+      // Assert
+      const req = httpTestingController.expectOne('https://api.deezer.com/playlist/908622995');
+
+      req.flush(playlist1);
+    });
+  });
+  describe('getPlaylistTracks', () => {
+    it('should fetch playlist tracks without any parameter', () => {
+      // Arrange
+      const playlist1Tracks = new TrackResult([], 0);
+
+      // Act
+      service.getPlaylistTracks(playlist1).subscribe(
+        result => expect(result).toEqual(playlist1Tracks)
+      );
+
+      // Asert
+      const req = httpTestingController.expectOne(playlist1.tracklist);
+
+      req.flush(playlist1Tracks);
     });
   });
 });

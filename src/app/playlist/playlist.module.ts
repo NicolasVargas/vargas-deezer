@@ -6,7 +6,6 @@ import {
   MatRippleModule, MatTableModule, MatToolbarModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@blox/material';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
@@ -26,8 +25,7 @@ import { PlaylistRoutingModule } from './playlist-routing.module';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    BrowserAnimationsModule,
-    MaterialModule
+    BrowserAnimationsModule
   ]
 })
 export class PlaylistModule { }
