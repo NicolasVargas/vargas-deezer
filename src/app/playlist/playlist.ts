@@ -11,7 +11,7 @@ export class Playlist {
         public nb_tracks?: number,
         public fans?: number,
         public tracks?: Track[],
-        public description?: string,
-        public creator?: any
+        public creator?: any,
+        public description?: string
     ) { }
 }

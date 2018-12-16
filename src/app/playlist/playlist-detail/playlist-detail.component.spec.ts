@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, MatTableModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -8,7 +9,6 @@ import { Playlist } from '../playlist';
 import { PlaylistService } from '../playlist.service';
 import { TrackResult } from '../track-result';
 import { PlaylistDetailComponent } from './playlist-detail.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 describe('PlaylistDetailComponent', () => {

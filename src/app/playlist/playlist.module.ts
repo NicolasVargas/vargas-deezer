@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  MatButtonModule, MatCardModule, MatGridListModule,
+import { MatButtonModule, MatCardModule, MatGridListModule,
   MatIconModule, MatPaginatorModule, MatProgressSpinnerModule,
-  MatRippleModule, MatTableModule, MatToolbarModule
-} from '@angular/material';
+  MatRippleModule, MatTableModule, MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
