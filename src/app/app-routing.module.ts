@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 const routes: Routes = [
   { path: '', redirectTo: '/playlists', pathMatch: 'full' }
@@ -7,7 +8,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { enableTracing: true })
+    RouterModule.forRoot(routes, { enableTracing: !environment.production })
   ],
   exports: [RouterModule]
 })
