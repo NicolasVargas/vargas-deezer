@@ -21,7 +21,7 @@ deploy:
   env:
     - GH_TOKEN=$GITHUB_TOKEN
   local_dir: dist/vargas-deezer
-  branches:
-    only: 
+  on:
+    branches: 
       - develop
       - github-page
