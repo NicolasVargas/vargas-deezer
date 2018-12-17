@@ -8,7 +8,7 @@ before_script:
 script:
 - ng lint
 - npm run test-headless
-- ng build --prod --base-href https://NicolasVargas.github.io/vargas-deezer/
+- ng build --prod --base-href /vargas-deezer/
 
 deploy:
   provider: pages
