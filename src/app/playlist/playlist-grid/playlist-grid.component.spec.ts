@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PlaylistGridComponent } from './playlist-grid.component';
-import { MatCardModule, MatButtonModule, MatGridListModule, MatIconModule } from '@angular/material';
-import { PlaylistService } from '../playlist.service';
-import { of } from 'rxjs';
-import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule, MatCardModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { Playlist } from '../playlist';
+import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
 import { PlaylistResult } from '../playlist-result';
+import { PlaylistService } from '../playlist.service';
+import { PlaylistGridComponent } from './playlist-grid.component';
 
 describe('PlaylistGridComponent', () => {
   let component: PlaylistGridComponent;
@@ -18,9 +18,10 @@ describe('PlaylistGridComponent', () => {
   let playlistServiceStub;
 
   beforeEach(async(() => {
-    playlistResult = new PlaylistResult([], '', 0);
+    playlistResult = new PlaylistResult([], 0, '');
 
-    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService', ['getPlaylists', 'hasNext', 'getNext']);
+    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService',
+      ['getPlaylists', 'hasMorePlaylists', 'loadMorePlaylists']);
     playlistServiceStub.getPlaylists.and.returnValue(of(playlistResult));
 
     TestBed.configureTestingModule({
@@ -29,7 +30,8 @@ describe('PlaylistGridComponent', () => {
         MatCardModule,
         MatButtonModule,
         MatGridListModule,
-        MatIconModule
+        MatIconModule,
+        RouterTestingModule
       ],
       providers: [
         { provide: PlaylistService, useValue: playlistServiceStub }
@@ -56,8 +58,8 @@ describe('PlaylistGridComponent', () => {
   it('should display 2 playlist cards', () => {
     // Arrange
     const gridCompDe: DebugElement = fixture.debugElement;
-    const playlist1: Playlist = new Playlist(1, 'p1', 'psm', 'pmd', 'playlist1', 'tracks', 1);
-    const playlist2: Playlist = new Playlist(2, 'p1', 'psm', 'pmd', 'playlist2', 'tracks', 4);
+    const playlist1: Playlist = new Playlist(1, 'playlist1');
+    const playlist2: Playlist = new Playlist(2, 'playlist1');
     playlistResult.data = [playlist1, playlist2];
 
     // Act
@@ -69,27 +71,27 @@ describe('PlaylistGridComponent', () => {
     expect(cards.length).toEqual(2);
   });
 
-  describe('getNext', () => {
-    it('should call getNext', () => {
+  describe('loadMorePlaylists', () => {
+    it('should call loadMorePlaylists', () => {
       // Arrange
-      playlistServiceStub.getNext.and.returnValue(of(new PlaylistResult([], '', 0)));
+      playlistServiceStub.loadMorePlaylists.and.returnValue(of(new PlaylistResult([], 0, '')));
 
       // Act
-      component.getNext();
+      component.loadMorePlaylists();
 
       // Assert
-      expect(playlistServiceStub.getNext).toHaveBeenCalled();
+      expect(playlistServiceStub.loadMorePlaylists).toHaveBeenCalled();
     });
 
-    it('should not call getNext', () => {
+    it('should not call loadMorePlaylists', () => {
       // Arrange
       component.loading = true;
 
       // Act
-      component.getNext();
+      component.loadMorePlaylists();
 
       // Assert
-      expect(playlistServiceStub.getNext).not.toHaveBeenCalled();
+      expect(playlistServiceStub.loadMorePlaylists).not.toHaveBeenCalled();
     });
   });
 });

@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
 import { PlaylistModule } from './playlist/playlist.module';
+import { MatToolbarModule, MatIconModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,9 @@ import { PlaylistModule } from './playlist/playlist.module';
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
     PlaylistModule,
     AppRoutingModule
   ],

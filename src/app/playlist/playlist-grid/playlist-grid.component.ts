@@ -21,10 +21,10 @@ export class PlaylistGridComponent implements OnInit {
     this.playlistResult = this.playlistService.getPlaylists();
   }
 
-  getNext() {
+  loadMorePlaylists() {
     if (!this.loading) {
       this.loading = true;
-      this.playlistService.getNext()
+      this.playlistService.loadMorePlaylists()
         .pipe(first())
         .subscribe(() => {
           this.loading = false;
@@ -32,8 +32,8 @@ export class PlaylistGridComponent implements OnInit {
     }
   }
 
-  hasNext() {
-    return !this.playlistService.hasNext();
+  hasMorePlaylists() {
+    return !this.playlistService.hasMorePlaylists();
   }
 
 }

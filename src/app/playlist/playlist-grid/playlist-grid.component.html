@@ -1,15 +1,17 @@
-<div class="playlist-grid-content">
-    <app-playlist-card *ngFor="let playlist of (playlistResult | async)?.data"
-                       [playlist]="playlist">
-    </app-playlist-card>
-</div>
-<div class="center my1">
-    <button mat-icon-button
-            mat-raised-button
-            [disabled]="hasNext()"
-            *ngIf="(playlistResult | async)?.data.length"
-            color="primary"
-            (click)="getNext()">
-        <mat-icon aria-label="See more playlists">expand_more</mat-icon>
-    </button>
+<div class="max-width-4 my2 mx2">
+  <div class="playlist-grid-content">
+      <app-playlist-card *ngFor="let playlist of (playlistResult | async)?.data"
+                         [playlist]="playlist">
+      </app-playlist-card>
+  </div>
+  <div class="center my1">
+      <button mat-icon-button
+              mat-raised-button
+              [disabled]="hasMorePlaylists()"
+              *ngIf="(playlistResult | async)?.data.length"
+              color="primary"
+              (click)="loadMorePlaylists()">
+          <mat-icon aria-label="See more playlists">expand_more</mat-icon>
+      </button>
+  </div>
 </div>
