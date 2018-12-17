@@ -10,7 +10,6 @@ import { PlaylistResult } from '../playlist-result';
 import { PlaylistService } from '../playlist.service';
 import { PlaylistGridComponent } from './playlist-grid.component';
 
-
 describe('PlaylistGridComponent', () => {
   let component: PlaylistGridComponent;
   let fixture: ComponentFixture<PlaylistGridComponent>;
