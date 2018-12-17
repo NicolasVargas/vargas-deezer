@@ -13,7 +13,15 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
+  before_script:
+    - npm install -g angular-cli-ghpages
+  script:
+    - npm ngh --dir=dist/vargas-deezer
   github_token: $GITHUB_TOKEN
+  env:
+    - GH_TOKEN=$GITHUB_TOKEN
   local_dir: dist/vargas-deezer
-  on:
-    branch: develop
+  branches:
+    only: 
+      - develop
+      - github-page
