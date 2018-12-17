@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { PlaylistModule } from './playlist/playlist.module';
 import { MatToolbarModule, MatIconModule, MatButtonModule } from '@angular/material';
+import { UserSelectionModule } from './user-selection/user-selection.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule } from '@angular/mater
     MatIconModule,
     MatButtonModule,
     PlaylistModule,
+    UserSelectionModule,
     AppRoutingModule
   ],
   providers: [],

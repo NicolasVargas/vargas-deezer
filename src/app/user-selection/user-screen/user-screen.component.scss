@@ -1,0 +1,10 @@
+:host {
+    display: block;
+}
+
+.users-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    grid-gap: 2em;
+    justify-content: center;
+}

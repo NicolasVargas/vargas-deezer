@@ -10,7 +10,6 @@ export class CorsInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<any>> {
         const newUrl = request.url.replace('https://api.deezer.com/', '/api/');
         const updatedRequest = request.clone({ url: newUrl });
-        console.log(updatedRequest.url);
         return next.handle(updatedRequest);
     }
 }
