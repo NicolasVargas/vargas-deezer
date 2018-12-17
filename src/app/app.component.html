@@ -2,7 +2,12 @@
     <mat-toolbar>
         <mat-toolbar-row>
             <a mat-icon-button routerLink="/">
-                <mat-icon class="example-icon">home</mat-icon>
+                <mat-icon>home</mat-icon>
+            </a>
+            <span class="flex-auto"></span>
+            {{principalService.getPrincipal()?.name}}
+            <a mat-icon-button routerLink="/users">
+                <mat-icon class="mr1">power_settings_new</mat-icon>
             </a>
         </mat-toolbar-row>
     </mat-toolbar>
