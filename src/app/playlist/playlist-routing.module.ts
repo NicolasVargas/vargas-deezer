@@ -4,11 +4,19 @@ import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import { PlaylistResolver } from './playlist-resolver';
 import { UserIdentityGuard } from './user-identity-guard';
+import { PlaylistsResolver } from './playlists-resolver';
 
 const routes: Routes = [
-    { path: 'playlists/:userId', component: PlaylistGridComponent, canActivate: [UserIdentityGuard] },
     {
-        path: 'playlists/:id/details',
+        path: ':userId/playlists',
+        component: PlaylistGridComponent,
+        // canActivate: [UserIdentityGuard],
+        resolve: {
+            user: PlaylistsResolver
+        }
+    },
+    {
+        path: ':userId/playlists/:id',
         component: PlaylistDetailComponent,
         resolve: {
             playlist: PlaylistResolver
@@ -19,6 +27,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
-    providers: [PlaylistResolver]
+    providers: [PlaylistResolver, PlaylistsResolver]
 })
 export class PlaylistRoutingModule { }

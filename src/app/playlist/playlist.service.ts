@@ -16,7 +16,7 @@ export class PlaylistService {
   /**
    * Fetch a brand new playlists page
    */
-  getPlaylists(userId: Number = 5): Observable<PlaylistResult> {
+  getPlaylists(userId: Number): Observable<PlaylistResult> {
     return this.http.get<PlaylistResult>(`${environment.apiUrl}/user/${userId}/playlists`);
   }
 
@@ -30,7 +30,7 @@ export class PlaylistService {
     }
   }
 
-  getPlaylist(playlistId: Number = 908622995): Observable<Playlist> {
+  getPlaylist(playlistId: Number): Observable<Playlist> {
     return this.http.get<Playlist>(`${environment.apiUrl}/playlist/${playlistId}`);
   }
 

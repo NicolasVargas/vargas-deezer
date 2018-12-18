@@ -1,15 +1,16 @@
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule, MatRippleModule } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { UserScreenComponent } from './user-screen/user-screen.component';
-import { UserSelectionRoutingModule } from './user-selection-routing.module';
+import { LoginRoutingModule } from './login-routing.module';
+import { LoginScreenComponent } from './login-screen/login-screen.component';
 
 
 @NgModule({
-  declarations: [UserScreenComponent],
+  declarations: [LoginScreenComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,7 +19,8 @@ import { UserSelectionRoutingModule } from './user-selection-routing.module';
     MatFormFieldModule,
     MatCardModule,
     MatRippleModule,
-    UserSelectionRoutingModule
+    LoginRoutingModule,
+    ScrollDispatchModule
   ]
 })
-export class UserSelectionModule { }
+export class LoginModule { }
