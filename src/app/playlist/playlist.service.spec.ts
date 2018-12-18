@@ -119,18 +119,18 @@ describe('PlaylistServiceService', () => {
       req.flush(playlist1);
     });
   });
-  describe('getPlaylistTracks', () => {
-    it('should fetch playlist tracks without any parameter', () => {
+  describe('getTracks', () => {
+    it('should fetch playlist tracks', () => {
       // Arrange
       const playlist1Tracks = new TrackResult([], 0);
 
       // Act
-      service.getPlaylistTracks(playlist1).subscribe(
+      service.getTracks(playlist1.id).subscribe(
         result => expect(result).toEqual(playlist1Tracks)
       );
 
       // Asert
-      const req = httpTestingController.expectOne(playlist1.tracklist);
+      const req = httpTestingController.expectOne(`https://api.deezer.com/playlist/${playlist1.id}/tracks`);
 
       req.flush(playlist1Tracks);
     });

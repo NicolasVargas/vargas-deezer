@@ -9,25 +9,26 @@ import { Playlist } from '../playlist';
 import { PlaylistService } from '../playlist.service';
 import { TrackResult } from '../track-result';
 import { PlaylistDetailComponent } from './playlist-detail.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 describe('PlaylistDetailComponent', () => {
   let component: PlaylistDetailComponent;
   let fixture: ComponentFixture<PlaylistDetailComponent>;
+  let playlistServiceStub;
 
   beforeEach(async(() => {
     const mockedActivateRoute = {
       snapshot: {
         data: {
-          playlist: new Playlist(0, 'Playlist Title', '', '', '', '/tracks', 2, 5, [], { name: 'author' })
+          playlist: new Playlist(0, 'Playlist Title', '', '', '', '/tracks', 2, 5, [], { name: 'author' }),
+          trackResult: new TrackResult([], 0)
         }
       }
     };
-    const playlistTracks: TrackResult = new TrackResult([], 0);
 
-    const playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService',
-      ['getPlaylistTracks']);
-    playlistServiceStub.getPlaylistTracks.and.returnValue(of(playlistTracks));
+    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService',
+      ['loadMoreTracks', 'hasMoreTracks']);
 
     TestBed.configureTestingModule({
       declarations: [PlaylistDetailComponent],
@@ -38,7 +39,7 @@ describe('PlaylistDetailComponent', () => {
         MatTableModule,
         MatProgressSpinnerModule,
         RouterTestingModule,
-        HttpClientTestingModule
+        InfiniteScrollModule
       ],
       providers: [
         { provide: ActivatedRoute, useValue: mockedActivateRoute },
@@ -46,8 +47,6 @@ describe('PlaylistDetailComponent', () => {
       ]
     })
       .compileComponents();
-    const activatedRoute = TestBed.get(ActivatedRoute);
-
   }));
 
   beforeEach(() => {
@@ -58,5 +57,23 @@ describe('PlaylistDetailComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onScrollDown', () => {
+    it('should not fetch next page when result has no next page', () => {
+      // Arrange
+      // Act
+      component.onScrollDown();
+      // Assert
+      expect(playlistServiceStub.loadMoreTracks).not.toHaveBeenCalled();
+    });
+    it('should fetch next page with loadMoreTracks', () => {
+      // Arrange
+      component.trackResult = new TrackResult([], 0, 'nextUrl');
+      // Act
+      component.onScrollDown();
+      // Assert
+      expect(playlistServiceStub.loadMoreTracks).toHaveBeenCalled();
+    });
   });
 });

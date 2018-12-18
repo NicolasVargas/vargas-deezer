@@ -10,7 +10,6 @@ const routes: Routes = [
     {
         path: ':userId/playlists',
         component: PlaylistGridComponent,
-        // canActivate: [UserIdentityGuard],
         resolve: {
             user: PlaylistsResolver
         }
