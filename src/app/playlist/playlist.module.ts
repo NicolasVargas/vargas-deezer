@@ -8,11 +8,13 @@ import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
 import { PlaylistRoutingModule } from './playlist-routing.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [PlaylistGridComponent, PlaylistDetailComponent, PlaylistCardComponent],
   imports: [
     CommonModule,
+    InfiniteScrollModule,
     PlaylistRoutingModule,
     MatCardModule,
     MatButtonModule,

@@ -10,21 +10,21 @@
     </div>
     <div class="flex-auto">
         <h1>{{playlist.title}}</h1>
-        <p>Creator : {{playlist.creator.name}}</p>
-        <span>
+        <div>By : {{playlist.creator.name}}</div>
+        <div>
             <mat-icon class="align-bottom">audiotrack</mat-icon>{{playlist.nb_tracks}}
-        </span>
-        <span class="ml1">
-            <mat-icon class="align-bottom">star</mat-icon>{{playlist.fans}}
-        </span>
+            <mat-icon class="ml1 align-bottom">star</mat-icon>{{playlist.fans}}
+        </div>
+        <div>
+            <mat-icon class="align-bottom">fast_forward</mat-icon>{{playlist.duration * 1000 | date:"HH:mm:ss"}}
+        </div>
         <p>{{playlist.description}}</p>
     </div>
 </div>
-<div class="relative">
-    <div class="spinner-container"
-         *ngIf="loading">
-        <mat-spinner></mat-spinner>
-    </div>
+<div class="relative"
+     infiniteScroll
+     [infiniteScrollDistance]="1"
+     (scrolled)="onScrollDown()">
     <table mat-table
            [dataSource]="trackResult?.data">
         <ng-container matColumnDef="title">
@@ -51,8 +51,6 @@
         <tr mat-row
             *matRowDef="let row; columns: columnsToDisplay;"></tr>
     </table>
-
-    <mat-paginator [pageSizeOptions]="pageSizeOptions"
-                   [pageSize]="pageSize"
-                   [length]="playlist.nb_tracks"></mat-paginator>
+    <mat-spinner class="mx-auto"
+                 *ngIf="loading"></mat-spinner>
 </div>

@@ -6,9 +6,6 @@
                 <mat-icon>home</mat-icon>
             </a>
             <span class="flex-auto"></span>
-            <!-- <a mat-icon-button
-               class="mr2"
-               routerLink="/login"> -->
             <button mat-button
                     *ngIf="principalService.getPrincipal()"
                     [matMenuTriggerFor]="menu">
@@ -17,9 +14,8 @@
                 {{principalService.getPrincipal().name}}</button>
             <mat-menu #menu="matMenu">
                 <button (click)="changeUser()"
-                        mat-menu-item>Change user</button>
+                        mat-menu-item>Logout</button>
             </mat-menu>
-            <!-- </a> -->
         </mat-toolbar-row>
     </mat-toolbar>
 </header>

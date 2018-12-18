@@ -34,14 +34,15 @@ export class PlaylistService {
     return this.http.get<Playlist>(`${environment.apiUrl}/playlist/${playlistId}`);
   }
 
-  getPlaylistTracks(playlist: Playlist, limit?: number, index?: number): Observable<TrackResult> {
-    let params = new HttpParams();
-    if (index) {
-      params = params.set('index', index.toString());
-    }
-    if (limit) {
-      params = params.set('limit', limit.toString());
-    }
-    return this.http.get<TrackResult>(playlist.tracklist, { params: params });
+  getTracks(playlistId: number): Observable<TrackResult> {
+    return this.http.get<TrackResult>(`${environment.apiUrl}/playlist/${playlistId}/tracks`);
+  }
+
+  hasMoreTracks(tracksResult: TrackResult): boolean {
+    return tracksResult.next != null;
+  }
+
+  loadMoreTracks(tracksResult: TrackResult): Observable<TrackResult> {
+    return this.http.get<TrackResult>(tracksResult.next);
   }
 }

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
+import { RouterModule, Routes } from '@angular/router';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
+import { PlaylistGridComponent } from './playlist-grid/playlist-grid.component';
 import { PlaylistResolver } from './playlist-resolver';
-import { UserIdentityGuard } from './user-identity-guard';
 import { PlaylistsResolver } from './playlists-resolver';
+import { TracksResolver } from './tracks-resolver';
 
 const routes: Routes = [
     {
@@ -19,7 +19,8 @@ const routes: Routes = [
         path: ':userId/playlists/:id',
         component: PlaylistDetailComponent,
         resolve: {
-            playlist: PlaylistResolver
+            playlist: PlaylistResolver,
+            trackResult: TracksResolver
         }
     }
 ];
@@ -27,6 +28,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
-    providers: [PlaylistResolver, PlaylistsResolver]
+    providers: [PlaylistResolver, PlaylistsResolver, TracksResolver]
 })
 export class PlaylistRoutingModule { }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { PlaylistService } from '../playlist.service';
-import { Playlist } from '../playlist';
-import { first, takeUntil, take, switchMap } from 'rxjs/operators';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { first, switchMap } from 'rxjs/operators';
 import { PlaylistResult } from '../playlist-result';
-import { ActivatedRoute, Data, ParamMap } from '@angular/router';
+import { PlaylistService } from '../playlist.service';
+
 
 @Component({
   selector: 'app-playlist-grid',
@@ -25,6 +24,12 @@ export class PlaylistGridComponent implements OnInit {
     ).subscribe((playlistResult: PlaylistResult) => this.playlistResult = playlistResult);
   }
 
+  onScrollDown() {
+    if (this.playlistService.hasMorePlaylists(this.playlistResult)) {
+      this.loadMorePlaylists();
+    }
+  }
+
   loadMorePlaylists() {
     if (!this.loading) {
       this.loading = true;
@@ -38,9 +43,4 @@ export class PlaylistGridComponent implements OnInit {
         });
     }
   }
-
-  reachedEnd() {
-    return !this.playlistService.hasMorePlaylists(this.playlistResult);
-  }
-
 }

@@ -1,17 +1,11 @@
-<div class="max-width-4 my2 mx2">
-  <div class="playlist-grid-content">
-      <app-playlist-card *ngFor="let playlist of playlistResult?.data"
-                         [playlist]="playlist">
-      </app-playlist-card>
-  </div>
-  <div class="center my1">
-      <button mat-icon-button
-              mat-raised-button
-              [disabled]="reachedEnd()"
-              *ngIf="playlistResult?.data.length"
-              color="primary"
-              (click)="loadMorePlaylists()">
-          <mat-icon aria-label="See more playlists">expand_more</mat-icon>
-      </button>
-  </div>
+<div class="my2 mx2 text-center">
+    <div class="playlist-grid-content"
+         infiniteScroll
+         [infiniteScrollDistance]="1"
+         (scrolled)="onScrollDown()">
+        <app-playlist-card *ngFor="let playlist of playlistResult?.data"
+                           [playlist]="playlist">
+        </app-playlist-card>
+    </div>
+    <mat-spinner class="mx-auto" *ngIf="loading"></mat-spinner>
 </div>
