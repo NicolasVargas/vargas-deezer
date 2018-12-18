@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PlaylistService } from './playlist.service';
-import { TrackResult } from './track-result';
+import { PlaylistService } from '../playlist.service';
+import { TrackResult } from '../_model/track-result';
 
 @Injectable()
 export class TracksResolver implements Resolve<TrackResult> {

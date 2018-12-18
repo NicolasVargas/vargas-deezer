@@ -1,14 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, MatTableModule } from '@angular/material';
+import { MatIconModule, MatProgressSpinnerModule, MatTableModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of } from 'rxjs';
-import { Playlist } from '../playlist';
+import { Playlist } from '../_model/playlist';
 import { PlaylistService } from '../playlist.service';
-import { TrackResult } from '../track-result';
+import { TrackResult } from '../_model/track-result';
 import { PlaylistDetailComponent } from './playlist-detail.component';
 
 
@@ -33,7 +33,6 @@ describe('PlaylistDetailComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
         MatIconModule,
-        MatPaginatorModule,
         MatTableModule,
         MatProgressSpinnerModule,
         RouterTestingModule,

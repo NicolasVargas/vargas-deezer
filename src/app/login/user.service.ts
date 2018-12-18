@@ -9,7 +9,7 @@ import { User } from '../core/user';
   providedIn: 'root'
 })
 export class UserService {
-  private readonly MAX_USERS = 15;
+  private readonly MAX_USERS = 100;
   constructor(private http: HttpClient) { }
 
   searchUser(query: string): Observable<UserResult> {

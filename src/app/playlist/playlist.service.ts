@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { Playlist } from './playlist';
-import { PlaylistResult } from './playlist-result';
-import { TrackResult } from './track-result';
+import { Playlist } from './_model/playlist';
+import { PlaylistResult } from './_model/playlist-result';
+import { TrackResult } from './_model/track-result';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Playlist } from '../playlist';
+import { Playlist } from '../_model/playlist';
 
 @Component({
   selector: 'app-playlist-card',

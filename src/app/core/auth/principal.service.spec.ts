@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PrincipalService } from './principal.service';
-import { User } from './user';
+import { User } from '../user';
 
 describe('PrincipalService', () => {
   let service: PrincipalService;

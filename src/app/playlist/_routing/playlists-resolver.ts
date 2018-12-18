@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PrincipalService } from '../core/principal.service';
-import { User } from '../core/user';
-import { UserService } from '../login/user.service';
+import { PrincipalService } from '../../core/auth/principal.service';
+import { User } from '../../core/user';
+import { UserService } from '../../login/user.service';
 import { tap } from 'rxjs/operators';
 
 @Injectable()

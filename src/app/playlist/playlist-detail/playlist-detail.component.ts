@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subject } from 'rxjs';
-import { catchError, finalize, takeUntil } from 'rxjs/operators';
-import { Playlist } from '../playlist';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Playlist } from '../_model/playlist';
 import { PlaylistService } from '../playlist.service';
-import { TrackResult } from '../track-result';
+import { TrackResult } from '../_model/track-result';
 
 @Component({
   selector: 'app-playlist-detail',

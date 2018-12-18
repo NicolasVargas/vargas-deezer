@@ -1,12 +1,19 @@
-<mat-card [routerLink]="[playlist.id]"
-          matRipple>
+<mat-card [routerLink]="[playlist.id]">
   <mat-card-header>
     <mat-card-title>{{playlist.title}}</mat-card-title>
-    <mat-card-subtitle>
-      <mat-icon>audiotrack</mat-icon>{{playlist.nb_tracks}}
-    </mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image
-       src="{{playlist.picture_medium}}"
-       alt="Playlist's picture">
+  <img
+    mat-card-image
+    src="{{playlist.picture_medium}}"
+    srcset="{{playlist.picture_small}} 56w,
+  {{playlist.picture}} 120w,
+  {{playlist.picture_medium}} 250w,  
+  {{playlist.picture_big}} 500w"
+    src="{{playlist.picture_medium}}"
+  >
+  <mat-card-content>
+    <div class="right-align">
+      <mat-icon class="align-bottom">audiotrack</mat-icon>{{playlist.nb_tracks}}
+    </div>
+  </mat-card-content>
 </mat-card>

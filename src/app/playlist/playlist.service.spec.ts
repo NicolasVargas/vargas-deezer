@@ -1,10 +1,10 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { Playlist } from './playlist';
-import { PlaylistResult } from './playlist-result';
+import { Playlist } from './_model/playlist';
+import { PlaylistResult } from './_model/playlist-result';
 import { PlaylistService } from './playlist.service';
-import { TrackResult } from './track-result';
+import { TrackResult } from './_model/track-result';
 
 
 describe('PlaylistServiceService', () => {

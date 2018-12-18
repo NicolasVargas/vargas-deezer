@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { first, switchMap } from 'rxjs/operators';
-import { PlaylistResult } from '../playlist-result';
+import { PlaylistResult } from '../_model/playlist-result';
 import { PlaylistService } from '../playlist.service';
 
 

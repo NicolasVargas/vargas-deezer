@@ -1,5 +1,9 @@
 :host {
     display: block;
-    // height: 400px;
-    // width: 250px;
 }   
+.mat-card {
+    cursor: pointer;
+}
+.mat-card-title {
+    word-break: break-all;
+}

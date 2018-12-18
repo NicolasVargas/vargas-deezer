@@ -3,3 +3,12 @@
         height: 38px;
     }
 }
+
+main {
+    width: 95vw
+}
+@media (min-width: 768px) { 
+    main {
+        width: 85vw
+    }
+}
