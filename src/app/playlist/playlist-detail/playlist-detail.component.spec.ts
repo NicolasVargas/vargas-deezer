@@ -4,18 +4,18 @@ import { MatIconModule, MatPaginatorModule, MatProgressSpinnerModule, MatTableMo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of } from 'rxjs';
 import { Playlist } from '../playlist';
 import { PlaylistService } from '../playlist.service';
 import { TrackResult } from '../track-result';
 import { PlaylistDetailComponent } from './playlist-detail.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 describe('PlaylistDetailComponent', () => {
   let component: PlaylistDetailComponent;
   let fixture: ComponentFixture<PlaylistDetailComponent>;
-  let playlistServiceStub;
+  let playlistService;
 
   beforeEach(async(() => {
     const mockedActivateRoute = {
@@ -27,12 +27,10 @@ describe('PlaylistDetailComponent', () => {
       }
     };
 
-    playlistServiceStub = jasmine.createSpyObj<PlaylistService>('PlaylistService',
-      ['loadMoreTracks', 'hasMoreTracks']);
-
     TestBed.configureTestingModule({
       declarations: [PlaylistDetailComponent],
       imports: [
+        HttpClientTestingModule,
         BrowserAnimationsModule,
         MatIconModule,
         MatPaginatorModule,
@@ -43,10 +41,12 @@ describe('PlaylistDetailComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useValue: mockedActivateRoute },
-        { provide: PlaylistService, useValue: playlistServiceStub }
+        PlaylistService
       ]
     })
       .compileComponents();
+
+    playlistService = TestBed.get(PlaylistService);
   }));
 
   beforeEach(() => {
@@ -62,18 +62,21 @@ describe('PlaylistDetailComponent', () => {
   describe('onScrollDown', () => {
     it('should not fetch next page when result has no next page', () => {
       // Arrange
+      const spyLoadMore = spyOn(playlistService, 'loadMoreTracks');
       // Act
       component.onScrollDown();
       // Assert
-      expect(playlistServiceStub.loadMoreTracks).not.toHaveBeenCalled();
+      expect(spyLoadMore).not.toHaveBeenCalled();
     });
     it('should fetch next page with loadMoreTracks', () => {
       // Arrange
       component.trackResult = new TrackResult([], 0, 'nextUrl');
+      const spyHasMore = spyOn(playlistService, 'hasMoreTracks').and.callThrough();
+      const spyLoadMore = spyOn(playlistService, 'loadMoreTracks').and.returnValue(of(new TrackResult([], 0)));
       // Act
       component.onScrollDown();
       // Assert
-      expect(playlistServiceStub.loadMoreTracks).toHaveBeenCalled();
+      expect(spyLoadMore).toHaveBeenCalled();
     });
   });
 });

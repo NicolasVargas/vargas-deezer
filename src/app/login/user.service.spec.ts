@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserResult } from './user-result';
-import { User } from './user';
+import { User } from '../core/user';
 
 
 describe('UserService', () => {

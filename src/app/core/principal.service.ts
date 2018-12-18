@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrincipalService {
-  private principal;
+  private principal: User;
 
   private readonly PRINCIPAL_STORAGE_KEY = 'NVD_PRINCIPAL';
 
   constructor() {
-    const principal = JSON.parse(localStorage.getItem(this.PRINCIPAL_STORAGE_KEY));
+    const principal: User = <User>JSON.parse(localStorage.getItem(this.PRINCIPAL_STORAGE_KEY));
     if (principal != null) {
       this.principal = principal;
     }
   }
 
-  setPrincipal(principal) {
-    this.principal = Object.assign({}, principal);
+  setPrincipal(principal: User) {
+    this.principal = <User>{...principal};
     localStorage.setItem(this.PRINCIPAL_STORAGE_KEY, JSON.stringify(this.principal));
   }
 
-  getPrincipal() {
+  getPrincipal(): User {
     return this.principal;
   }
 

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { User } from '../user';
+import { User } from '../../core/user';
 import { UserResult } from '../user-result';
 import { UserService } from '../user.service';
 
