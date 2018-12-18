@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatFormFieldModule, MatInputModule, MatRippleModule } from '@angular/material';
+import { MatCardModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatProgressSpinnerModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -27,7 +27,8 @@ describe('LoginScreenComponent', () => {
         MatCardModule,
         MatRippleModule,
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatProgressSpinnerModule
       ],
       providers: [
         UserService

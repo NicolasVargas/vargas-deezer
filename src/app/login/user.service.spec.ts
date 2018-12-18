@@ -26,7 +26,7 @@ describe('UserService', () => {
   });
 
   describe('searchUser', () => {
-    it('should find return an observable of users', () => {
+    it('should return an observable of users', () => {
       // Arrange
       const userResult: UserResult = new UserResult([], 0);
       // Act
@@ -35,7 +35,7 @@ describe('UserService', () => {
       );
 
       // Assert
-      const req = httpTestingController.expectOne('https://api.deezer.com/search/user?q=myValue&limit=15');
+      const req = httpTestingController.expectOne(`https://api.deezer.com/search/user?q=myValue&limit=${userService['MAX_USERS']}`);
 
       req.flush(userResult);
     });
