@@ -12,6 +12,7 @@ export class Playlist {
         public fans?: number,
         public tracks?: Track[],
         public creator?: any,
-        public description?: string
+        public description?: string,
+        public duration?: number
     ) { }
 }
