@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PrincipalService } from './core/principal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'vargas-deezer';
+
+  constructor(public principalService: PrincipalService, public router: Router) {}
+
+  changeUser() {
+    this.principalService.removePrincipal();
+    this.router.navigate(['login']);
+  }
 }

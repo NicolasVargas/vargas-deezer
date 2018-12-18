@@ -1,9 +1,25 @@
 <header>
     <mat-toolbar>
         <mat-toolbar-row>
-            <a mat-icon-button routerLink="/playlists">
-                <mat-icon class="example-icon">home</mat-icon>
+            <a mat-icon-button
+               routerLink="/">
+                <mat-icon>home</mat-icon>
             </a>
+            <span class="flex-auto"></span>
+            <!-- <a mat-icon-button
+               class="mr2"
+               routerLink="/login"> -->
+            <button mat-button
+                    *ngIf="principalService.getPrincipal()"
+                    [matMenuTriggerFor]="menu">
+                <img class="circle mr1"
+                     src="{{principalService.getPrincipal().picture_small}}">
+                {{principalService.getPrincipal().name}}</button>
+            <mat-menu #menu="matMenu">
+                <button (click)="changeUser()"
+                        mat-menu-item>Change user</button>
+            </mat-menu>
+            <!-- </a> -->
         </mat-toolbar-row>
     </mat-toolbar>
 </header>

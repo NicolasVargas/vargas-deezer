@@ -1,4 +1,4 @@
 import { Track } from './track';
-import { ResultList } from './result-list';
+import { ResultList } from '../core/result-list';
 
 export class TrackResult extends ResultList<Track> { }

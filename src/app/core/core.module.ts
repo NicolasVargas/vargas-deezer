@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ServicesModule } from './services/services.module';
-import { environment } from './../../environments/environment';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { environment } from './../../environments/environment';
 import { CorsInterceptor } from './corsInterceptor';
+
 
 let devProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -18,8 +17,7 @@ if (environment.production) {
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    ServicesModule
+    CommonModule
   ],
   providers: [...devProviders]
 })
