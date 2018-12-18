@@ -1,14 +1,15 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule, MatCardModule, MatGridListModule, MatIconModule } from '@angular/material';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { MatButtonModule, MatCardModule, MatGridListModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { Playlist } from '../playlist';
+import { Playlist } from '../_model/playlist';
 import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
-import { PlaylistResult } from '../playlist-result';
+import { PlaylistResult } from '../_model/playlist-result';
 import { PlaylistService } from '../playlist.service';
 import { PlaylistGridComponent } from './playlist-grid.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('PlaylistGridComponent', () => {
   let component: PlaylistGridComponent;
@@ -28,31 +29,36 @@ describe('PlaylistGridComponent', () => {
       declarations: [PlaylistGridComponent, PlaylistCardComponent],
       imports: [
         MatCardModule,
-        MatButtonModule,
         MatGridListModule,
+        MatButtonModule,
         MatIconModule,
-        RouterTestingModule
+        MatProgressSpinnerModule,
+        RouterTestingModule,
+        InfiniteScrollModule
       ],
       providers: [
         { provide: PlaylistService, useValue: playlistServiceStub }
       ]
     })
       .compileComponents();
-
+  }));
+  beforeEach(() => {
     fixture = TestBed.createComponent(PlaylistGridComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
-  }));
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
-  it('should display 0 playlist cards', () => {
+  it('should create', (a) => {
+    expect(component).toBeTruthy();
+    a();
+  });
+
+  it('should display 0 playlist cards', (done) => {
     const gridCompDe: DebugElement = fixture.debugElement;
     const cards = gridCompDe.queryAll(By.directive(PlaylistCardComponent));
     expect(cards.length).toEqual(0);
+    done();
   });
 
   it('should display 2 playlist cards', () => {

@@ -4,8 +4,7 @@
     <input matInput
            autocomplete="off"
            [formControl]="userName"
-           placeholder="User">
-    <mat-hint>Maybe find "eminem"</mat-hint>
+           placeholder="Fill your user name">
   </mat-form-field>
 </form>
 <div class="users-card-container">
@@ -20,3 +19,5 @@
     </mat-card-header>
   </mat-card>
 </div>
+<mat-spinner class="mx-auto mt2"
+             *ngIf="loading"></mat-spinner>

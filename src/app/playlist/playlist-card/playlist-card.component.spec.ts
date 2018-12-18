@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule, MatCardModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Playlist } from '../playlist';
+import { Playlist } from '../_model/playlist';
 import { PlaylistCardComponent } from './playlist-card.component';
 
 

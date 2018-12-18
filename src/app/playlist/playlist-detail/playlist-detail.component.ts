@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subject } from 'rxjs';
-import { catchError, finalize, takeUntil } from 'rxjs/operators';
-import { Playlist } from '../playlist';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Playlist } from '../_model/playlist';
 import { PlaylistService } from '../playlist.service';
-import { TrackResult } from '../track-result';
+import { TrackResult } from '../_model/track-result';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -19,11 +18,6 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
   trackResult: TrackResult;
 
   columnsToDisplay = ['title', 'duration', 'artist'];
-  pageSizeOptions = [20, 50, 100];
-  pageSize = this.pageSizeOptions[0];
-  previousPageSize = this.pageSize;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,28 +26,21 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   ngOnInit() {
     this.playlist = this.route.snapshot.data.playlist;
-    this.loadTracks(this.pageSize);
+    this.trackResult = this.route.snapshot.data.trackResult;
   }
 
   ngAfterViewInit() {
-    this.paginator.page.pipe(takeUntil(this.destroySubject))
-      .subscribe((pageEvent: PageEvent) => {
-        this.loadTracks(pageEvent.pageSize, pageEvent.pageIndex);
-      });
   }
 
-  loadTracks(pageSize: number, pageIndex: number = 0) {
-    this.loading = true;
-    const index = pageIndex * pageSize;
-    this.playlistService.getPlaylistTracks(this.playlist, pageSize, index)
-      .pipe(
-        takeUntil(this.destroySubject),
-        catchError(() => of([])),
-        finalize(() => this.loading = false)
-      )
-      .subscribe((trackResult: TrackResult) => {
-        this.trackResult = trackResult;
-      });
+  onScrollDown() {
+    if (this.playlistService.hasMoreTracks(this.trackResult)) {
+      this.playlistService.loadMoreTracks(this.trackResult)
+        .pipe(takeUntil(this.destroySubject))
+        .subscribe((trackResult: TrackResult) => {
+          trackResult.data = this.trackResult.data.concat(trackResult.data);
+          this.trackResult = trackResult;
+        });
+    }
   }
 
   ngOnDestroy() {

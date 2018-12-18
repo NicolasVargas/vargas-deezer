@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { User } from '../user';
+import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { User } from '../../core/user';
 import { UserResult } from '../user-result';
 import { UserService } from '../user.service';
 
@@ -17,6 +17,7 @@ export class LoginScreenComponent implements OnInit, OnDestroy {
   userName = new FormControl('');
   userResult: UserResult;
   users: User[] = [];
+  loading: boolean;
 
   constructor(private userService: UserService,
     private router: Router) { }
@@ -26,9 +27,11 @@ export class LoginScreenComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroySubject),
         debounceTime(300),
+        tap(() => this.loading = true),
         switchMap(newValue => this.userService.searchUser(newValue))
       )
       .subscribe((userResult: UserResult) => {
+        this.loading = false;
         this.userResult = userResult;
         this.users = this.userResult.data;
       });

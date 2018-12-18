@@ -1,10 +1,10 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { Playlist } from './playlist';
-import { PlaylistResult } from './playlist-result';
+import { Playlist } from './_model/playlist';
+import { PlaylistResult } from './_model/playlist-result';
 import { PlaylistService } from './playlist.service';
-import { TrackResult } from './track-result';
+import { TrackResult } from './_model/track-result';
 
 
 describe('PlaylistServiceService', () => {
@@ -119,18 +119,18 @@ describe('PlaylistServiceService', () => {
       req.flush(playlist1);
     });
   });
-  describe('getPlaylistTracks', () => {
-    it('should fetch playlist tracks without any parameter', () => {
+  describe('getTracks', () => {
+    it('should fetch playlist tracks', () => {
       // Arrange
       const playlist1Tracks = new TrackResult([], 0);
 
       // Act
-      service.getPlaylistTracks(playlist1).subscribe(
+      service.getTracks(playlist1.id).subscribe(
         result => expect(result).toEqual(playlist1Tracks)
       );
 
       // Asert
-      const req = httpTestingController.expectOne(playlist1.tracklist);
+      const req = httpTestingController.expectOne(`https://api.deezer.com/playlist/${playlist1.id}/tracks`);
 
       req.flush(playlist1Tracks);
     });

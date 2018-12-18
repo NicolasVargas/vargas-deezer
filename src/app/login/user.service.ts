@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserResult } from './user-result';
 import { Observable } from 'rxjs';
-import { User } from './user';
+import { User } from '../core/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private readonly MAX_USERS = 15;
+  private readonly MAX_USERS = 100;
   constructor(private http: HttpClient) { }
 
   searchUser(query: string): Observable<UserResult> {

@@ -7,11 +7,13 @@ export class Playlist {
         public picture?: string,
         public picture_small?: string,
         public picture_medium?: string,
+        public picture_big?: string,
         public tracklist?: string,
         public nb_tracks?: number,
         public fans?: number,
         public tracks?: Track[],
         public creator?: any,
-        public description?: string
+        public description?: string,
+        public duration?: number
     ) { }
 }
