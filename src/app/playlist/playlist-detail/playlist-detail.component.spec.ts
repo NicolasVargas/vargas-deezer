@@ -21,7 +21,7 @@ describe('PlaylistDetailComponent', () => {
     const mockedActivateRoute = {
       snapshot: {
         data: {
-          playlist: new Playlist(0, 'Playlist Title', '', '', '', '/tracks', 2, 5, [], { name: 'author' }),
+          playlist: new Playlist(0, 'Playlist Title', '', '', '', '', '/tracks', 2, 5, [], { name: 'author' }),
           trackResult: new TrackResult([], 0)
         }
       }
