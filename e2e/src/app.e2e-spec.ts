@@ -1,14 +1,20 @@
 import { AppPage } from './app.po';
+import { browser } from 'protractor';
 
-describe('workspace-project App', () => {
+describe('App', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should go directly to login page', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to vargas-deezer!');
+    expect(browser.driver.getCurrentUrl()).toContain('/login');
+  });
+
+  it('should refirect wrong paths to login page', () => {
+    page.navigateToWrongPage();
+    expect(browser.driver.getCurrentUrl()).toContain('/login');
   });
 });

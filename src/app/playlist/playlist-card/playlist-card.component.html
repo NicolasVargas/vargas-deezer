@@ -1,4 +1,7 @@
-<mat-card [routerLink]="[playlist.id]">
+<mat-card
+  [routerLink]="[playlist.id]"
+  id="playlist-{{playlist.id}}"
+>
   <mat-card-header>
     <mat-card-title>{{playlist.title}}</mat-card-title>
   </mat-card-header>
