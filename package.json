@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
-    "e2e-headless": "ng e2e --watch=false --browsers=ChromeHeadless"
+    "e2e-headless": "ng e2e --protractorConfig=e2e/protractor-ci.conf.js"
   },
   "private": true,
   "dependencies": {
