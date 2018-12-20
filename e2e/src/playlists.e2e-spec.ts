@@ -19,15 +19,15 @@ describe('Playlists page', () => {
         expect(page.getPlaylistCards().count()).toEqual(25);
     });
 
-    it('should scroll and use lazy load to see the rest of user\'s playlist', () => {
-        page.getPlaylistCards().then(cards => {
-            browser.executeScript('arguments[0].scrollIntoView();', cards[cards.length - 1].getWebElement())
-                .then(() => {
-                    browser.waitForAngular();
-                    expect(page.getPlaylistCards().count()).toBeGreaterThan(25);
-                });
-        });
-    });
+    // it('should scroll and use lazy load to see the rest of user\'s playlist', () => {
+    //     page.getPlaylistCards().then(cards => {
+    //         browser.executeScript('arguments[0].scrollIntoView();', cards[cards.length - 1].getWebElement())
+    //             .then(() => {
+    //                 browser.waitForAngular();
+    //                 expect(page.getPlaylistCards().count()).toBeGreaterThan(25);
+    //             });
+    //     });
+    // });
 
     it('should go to playlist details', () => {
         page.getPlaylistCard(700895155).click();
