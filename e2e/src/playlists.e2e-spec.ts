@@ -21,8 +21,7 @@ describe('Playlists page', () => {
 
     it('should scroll and use lazy load to see the rest of user\'s playlist', () => {
         page.getPlaylistCards().then(cards => {
-            browser.actions().mouseMove(cards[cards.length - 1])
-                .perform()
+            browser.executeScript('window.scrollTo(0,document.body.offsetHeight);')
                 .then(() => {
                     browser.waitForAngular();
                     expect(page.getPlaylistCards().count()).toBeGreaterThan(25);
