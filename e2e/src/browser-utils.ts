@@ -5,4 +5,4 @@ export default {
         browser.executeScript('window.sessionStorage.clear();');
         browser.executeScript('window.localStorage.clear();');
     }
-}
+};
