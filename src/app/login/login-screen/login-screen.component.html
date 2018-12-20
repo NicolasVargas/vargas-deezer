@@ -1,23 +1,32 @@
 <form class="center">
   <h1>Who are you ?</h1>
   <mat-form-field class="col-6">
-    <input matInput
-           autocomplete="off"
-           [formControl]="userName"
-           placeholder="Fill your user name">
+    <input
+      matInput
+      name="userName"
+      autocomplete="off"
+      [formControl]="userName"
+      placeholder="Fill your user name"
+    >
   </mat-form-field>
 </form>
 <div class="users-card-container">
-  <mat-card *ngFor="let user of users"
-            mat-ripple
-            (click)="onSelectUser(user)"
-            >
+  <mat-card
+    *ngFor="let user of users"
+    id="user-{{user.id}}"
+    mat-ripple
+    (click)="onSelectUser(user)"
+  >
     <mat-card-header>
-      <div mat-card-avatar
-           [ngStyle]="{'background-image': 'url(' + user.picture_small + ')'}"></div>
+      <div
+        mat-card-avatar
+        [ngStyle]="{'background-image': 'url(' + user.picture_small + ')'}"
+      ></div>
       <mat-card-title>{{user.name}}</mat-card-title>
     </mat-card-header>
   </mat-card>
 </div>
-<mat-spinner class="mx-auto mt2"
-             *ngIf="loading"></mat-spinner>
+<mat-spinner
+  class="mx-auto mt2"
+  *ngIf="loading"
+></mat-spinner>
